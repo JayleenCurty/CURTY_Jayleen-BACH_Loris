@@ -3,6 +3,7 @@
 > Projet libre – Cours ProgServ2, HEIG-VD Nom de travail : **GroupTrip** (sera
 > modifié si on trouve mieux) Version : 1.0 – cahier des charges initial
 
+
 ## 1. Membres de l'équipe
 
 | Membre      | Rôle principal                          | Responsabilités principales                                                                                                 |
