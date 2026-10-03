@@ -49,6 +49,76 @@ configuration et l'utilisation du projet.
 
 ## Structure du projet
 
+```text
+grouptrip/
+│
+├── 📁 .devcontainer/              # Configuration du conteneur de développement
+├── 📁 .vscode/                    # Paramètres recommandés pour VS Code
+│
+├── 📁 docs/                       # Documentation du projet
+│   ├── cahier-des-charges.md
+│   ├── 📁 maquettes/              # Wireframes (PDF)
+│   └── 📁 schema/                 # Modèles de données
+│       ├── MCD.png                # Modèle Conceptuel de Données
+│       └── MLD.png                # Modèle Logique de Données
+│
+├── 📁 initdb/                     # Scripts exécutés à la création de la base MariaDB
+│   ├── 01-schema.sql              # Création des tables
+│   ├── 02-catalogue.sql           # Destinations, vols, hôtels (données fictives)
+│   ├── 03-checklists.sql          # Modèles de checklist
+│   └── 04-comptes.sql             # Compte administrateur et compte de démo
+│
+├── 📁 public/                     # Racine web, seul dossier accessible par le navigateur
+│   ├── 📁 css/
+│   │   ├── reset.css
+│   │   ├── base.css               # Typographie, couleurs, navigation, boutons
+│   │   ├── accueil.css
+│   │   ├── formulaires.css
+│   │   ├── propositions.css
+│   │   └── recapitulatif.css
+│   ├── 📁 images/
+│   │   ├── 📁 destinations/       # Visuels des villes
+│   │   └── 📁 logo/
+│   ├── 📁 admin/                  # Pages réservées au rôle administrateur
+│   │   ├── index.php
+│   │   ├── destinations.php
+│   │   ├── vols.php
+│   │   ├── hotels.php
+│   │   └── checklists.php
+│   ├── index.php                  # Accueil
+│   ├── inscription.php
+│   ├── connexion.php
+│   ├── deconnexion.php
+│   ├── mes-voyages.php            # Tableau de bord
+│   ├── voyage-creer.php           # Étape 1 : critères
+│   ├── voyage-modifier.php
+│   ├── voyage-supprimer.php
+│   ├── propositions.php           # Étape 2 : destination + vol + hôtel
+│   ├── recapitulatif.php          # Étape 3 : récapitulatif et checklist
+│   └── tache.php                  # Ajouter, cocher, supprimer une tâche
+│
+├── 📁 src/                        # Code back-end, hors de portée du navigateur
+│   ├── database.php               # Connexion PDO
+│   ├── auth.php                   # Session, exiger_connexion(), exiger_admin()
+│   ├── validation.php             # Validation des formulaires côté serveur
+│   ├── functions.php              # Utilitaires (échappement HTML, formatage CHF)
+│   ├── 📁 requetes/               # Requêtes préparées, un fichier par domaine
+│   │   ├── utilisateurs.php
+│   │   ├── voyages.php
+│   │   ├── propositions.php       # Recherche des combinaisons compatibles
+│   │   ├── taches.php
+│   │   └── catalogue.php
+│   └── 📁 partials/               # Fragments HTML réutilisés
+│       ├── header.php
+│       ├── nav.php
+│       └── footer.php
+│
+├── .env.example                   # Variables d'environnement à copier en .env
+├── .gitignore
+├── compose.yaml                   # Services Apache/PHP, MariaDB, Mailpit
+└── README.md                      # Documentation du projet (ce fichier)
+```
+
 - `.devcontainer/`: Contient la configuration pour le développement dans un
   conteneur Debian (Trixie) avec Visual Studio Code.
 - `.vscode/`: Contient les paramètres recommandés pour Visual Studio Code.
@@ -204,3 +274,39 @@ Lorsque vous fermez Visual Studio Code, les conteneurs Docker seront
 automatiquement arrêtés. Dès que vous rouvrez Visual Studio Code et que vous
 exécutez à nouveau la commande `docker compose up`, les services Docker seront
 redémarrés.
+
+## Justification IA
+
+### IA utilisée pour création de maquettes
+
+Nous avons utilisé l'IA pour la création des maquettes afin de pouvoir avancer
+plus vite sur les autres aspects du projets. En effet, nous avons jugé plus
+judicieux de passer moins de temps sur cette étape là afin de se laisser de plus
+grandes marges pour les autres étapes de notre ambitieux projet.
+
+L'IA n'a pas décidé du contenu à notre place. Nous lui avons fourni notre cahier
+des charges, rédigé par nos soins, et elle en a tiré une proposition visuelle :
+accueil, création d'un voyage, propositions, récapitulatif avec checklist et
+tableau de bord « Mes voyages ». Nous avons ensuite relu chaque écran pour
+vérifier qu'il correspondait bien aux fonctionnalités prévues, et corrigé ou
+écarté ce qui n'était pas cohérent avec notre périmètre.
+
+Les maquettes restent un support de réflexion. Elles ont été générées avec Figma
+AI et Lovable sous forme de prototype côté navigateur, avec des données
+fictives, et aucun code issu de cet outil ne sera repris dans l'application
+finale. L'ensemble du code PHP, des requêtes SQL et de la structure de la base
+sera écrit par nous.
+
+Nous présentons deux maquettes, car nous n'avons pas encore tranché entre les
+deux directions et que chacune nous plaît pour des raisons différentes. La
+première organise l'application en onglets (Parcours, Mes voyages, Propositions,
+Préparatifs, Connexion / compte) et laisse l'utilisateur passer librement d'une
+vue à l'autre. La seconde suit un parcours guidé en trois étapes (création,
+résultats, récapitulatif), avec un tableau de bord plus détaillé pour retrouver
+ses voyages.
+
+Les deux couvrent les mêmes fonctionnalités du cahier des charges. Le choix ne
+touche donc que la présentation : la base de données, les requêtes et la logique
+PHP restent identiques dans les deux cas. C'est pourquoi nous préférons ne pas
+nous restreindre à ce stade. Nous déciderons une fois les fonctionnalités
+principales en place, en fonction du temps qu'il nous restera pour l'interface.
