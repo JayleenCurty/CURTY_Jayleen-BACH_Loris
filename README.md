@@ -117,9 +117,9 @@ grouptrip/
 ├── .gitignore
 ├── compose.yaml                   # Services Apache/PHP, MariaDB, Mailpit
 └── README.md                      # Documentation du projet (ce fichier)
-
-Lien figma de notre maquette : https://www.figma.com/design/l5XSbpdj9I4OESRRqoHF9t/GroupTrip?node-id=0-1&t=2pAHEcaONCwkAPRT-1
 ```
+
+## Lien figma de notre maquette : https://www.figma.com/design/l5XSbpdj9I4OESRRqoHF9t/GroupTrip?node-id=0-1&t=2pAHEcaONCwkAPRT-1
 
 - `.devcontainer/`: Contient la configuration pour le développement dans un
   conteneur Debian (Trixie) avec Visual Studio Code.
