@@ -42,9 +42,9 @@ services:
     image: mariadb:12
     environment:
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
-      - MARIADB_USER=username
-      - MARIADB_PASSWORD=password
-      - MARIADB_DATABASE=my_database
+      - MARIADB_USER=rislojaylo
+      - MARIADB_PASSWORD=hellokitty.7
+      - MARIADB_DATABASE=grouptrip
     ports:
       - 3306:3306
     volumes:
