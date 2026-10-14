@@ -3,11 +3,11 @@
 -- SGBD : MariaDB
 -- À importer dans la base créée par le template (via phpMyAdmin)
 -- =====================================================================
-CREATE DATABASE IF NOT EXISTS grouptrip
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+--CREATE DATABASE IF NOT EXISTS grouptrip
+  --CHARACTER SET utf8mb4
+ -- COLLATE utf8mb4_unicode_ci;
 
-USE grouptrip;
+--USE grouptrip;
 
 -- Permet de relancer le script pendant le développement
 DROP TABLE IF EXISTS taches;
