@@ -56,16 +56,18 @@ grouptrip/
 ├── 📁 .vscode/                    # Paramètres recommandés pour VS Code
 │
 ├── 📁 docs/                       # Documentation du projet
-│   ├── cahier-des-charges.md
-│   ├── 📁 maquettes/              # Wireframes (PDF)
+│   ├── CAHIER_DES_CHARGES_V1.md
+│   ├── 📁 maquettes/              # Maquettes et wireframes
+│   │   ├── GroupTrip_maquette.pdf
+│   │   └── GroupTrip_wireframe_maquette.pdf
 │   └── 📁 schema/                 # Modèles de données
-│       ├── MCD.png                # Modèle Conceptuel de Données
-│       └── MLD.png                # Modèle Logique de Données
+│       ├── grouptrip-MCD_GroupTrip.drawio.pdf   # Modèle Conceptuel de Données
+│       └── grouptrip-MLD_GroupTrip.drawio.pdf   # Modèle Logique de Données
 │
 ├── 📁 initdb/                     # Scripts exécutés à la création de la base MariaDB
-│   ├── 01-schema.sql              # Création des tables
+│   ├── 01-schema.sql              # Création des tables (MPD)
 │   ├── 02-catalogue.sql           # Destinations, vols, hôtels (données fictives)
-│   ├── 03-checklists.sql          # Modèles de checklist
+│   ├── 03-checklists.sql          # Tâches de la checklist (table taches)
 │   └── 04-comptes.sql             # Compte administrateur et compte de démo
 │
 ├── 📁 public/                     # Racine web, seul dossier accessible par le navigateur
@@ -76,24 +78,20 @@ grouptrip/
 │   │   ├── formulaires.css
 │   │   ├── propositions.css
 │   │   └── recapitulatif.css
-│   ├── 📁 images/
-│   │   ├── 📁 destinations/       # Visuels des villes
-│   │   └── 📁 logo/
 │   ├── 📁 admin/                  # Pages réservées au rôle administrateur
 │   │   ├── index.php
 │   │   ├── destinations.php
 │   │   ├── vols.php
-│   │   ├── hotels.php
-│   │   └── checklists.php
+│   │   └── hotels.php
 │   ├── index.php                  # Accueil
 │   ├── inscription.php
 │   ├── connexion.php
 │   ├── deconnexion.php
 │   ├── mes-voyages.php            # Tableau de bord
-│   ├── voyage-creer.php           # Étape 1 : critères
+│   ├── voyage-creer.php           # Étape 1 : critères du voyage
 │   ├── voyage-modifier.php
 │   ├── voyage-supprimer.php
-│   ├── propositions.php           # Étape 2 : destination + vol + hôtel
+│   ├── propositions.php           # Étape 2 : choix du vol et de l'hôtel
 │   ├── recapitulatif.php          # Étape 3 : récapitulatif et checklist
 │   └── tache.php                  # Ajouter, cocher, supprimer une tâche
 │
@@ -113,9 +111,8 @@ grouptrip/
 │       ├── nav.php
 │       └── footer.php
 │
-├── .env.example                   # Variables d'environnement à copier en .env
 ├── .gitignore
-├── compose.yaml                   # Services Apache/PHP, MariaDB, Mailpit
+├── compose.yaml                   # Services Apache/PHP, MariaDB, phpMyAdmin, Mailpit
 └── README.md                      # Documentation du projet (ce fichier)
 ```
 
