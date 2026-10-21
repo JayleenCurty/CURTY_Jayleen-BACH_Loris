@@ -1,59 +1,77 @@
-# HEIG-VD ProgServ2 Course PHP Template
+# GroupTrip
 
-Ce modèle de projet est conçu pour les étudiant.es du cours
-[_"Programmation Serveur 2 (ProgServ2)"_](https://github.com/heig-vd-progserv-course/heig-vd-progserv2-course)
-à la [HEIG-VD](https://heig-vd.ch).
+> Projet libre du cours
+> [_Programmation Serveur 2 (ProgServ2)_](https://github.com/heig-vd-progserv-course/heig-vd-progserv2-course)
+> – HEIG-VD
 
-Il fournit une structure de base pour les projets PHP avec les éléments suivants
-:
+🌍 **Site en ligne :
+[https://grouptrip.lorisbach.ch](https://grouptrip.lorisbach.ch)**
 
-- Un serveur [Apache](https://httpd.apache.org/) avec
-  [PHP 8.5](https://www.php.net/) et les extensions nécessaires pour se
-  connecter à une base de données [MariaDB](https://mariadb.org/).
-- Une base de données [MariaDB](https://mariadb.org/) préconfigurée avec un
-  utilisateur et un mot de passe par défaut. Dans vos scripts PHP, utilisez le
-  nom d'hôte `mariadb` et les identifiants définis dans le fichier
-  `compose.yaml`.
-- Une interface web [phpMyAdmin](https://www.phpmyadmin.net/) pour gérer la base
-  de données MariaDB en utilisant les mêmes identifiants que ceux définis dans
-  le fichier `compose.yaml`.
-- Un serveur SMTP [Mailpit](https://mailpit.axllent.org/) pour tester l'envoi
-  d'e-mails depuis votre application PHP.
-- Des configurations recommandées pour l'éditeur de code
-  [Visual Studio Code](https://code.visualstudio.com/), y compris des extensions
-  utiles pour le développement PHP et la gestion de bases de données
-  ([PHP Intelephense](https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client),
-  [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode),
-  [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)).
+GroupTrip est une application web qui aide à organiser des voyages en grand
+groupe (vacances entre ami·es, EVJF/EVG, voyages d'études, séminaires…) au
+départ de l'aéroport de Genève. L'organisateur ou l'organisatrice saisit les
+critères du voyage (nombre de personnes, budget, dates, type de destination),
+l'application propose des combinaisons vol + hôtel compatibles, puis génère une
+checklist des choses à préparer avant le départ.
 
-Tous ses éléments sont configurés pour fonctionner avec
-[Docker Compose](https://docs.docker.com/compose/), ce qui permet de créer un
-environnement de développement isolé et reproductible.
+## Équipe
 
-N'hésitez pas à personnaliser ce modèle et ce document pour ajouter des
-instructions spécifiques à votre projet ou des détails supplémentaires sur la
-configuration et l'utilisation du projet.
+| Membre            | Rôle principal                                            |
+| ----------------- | --------------------------------------------------------- |
+| **Loris Bach**    | Développement applicatif (PHP, interface), hébergement    |
+| **Jayleen Curty** | Base de données (modélisation, SQL, données), déploiement |
 
-## Utiliser ce modèle pour votre projet
+## Sommaire
 
-1. Cliquez sur le bouton "Use this template" (Utiliser ce modèle) sur la page
-   GitHub de ce dépôt.
-2. Donnez un nom à votre nouveau dépôt et configurez les options selon vos
-   préférences.
-3. Invitez les membres de votre équipe à collaborer sur le projet en leur
-   donnant accès au dépôt (si applicable).
-4. Chaque membre de l'équipe doit cloner le nouveau dépôt sur sa machine locale
-   pour commencer à travailler sur le projet.
-5. Utilisez le workflow GitHub étudié en cours pour gérer les branches, les
-   commits et les pull requests afin de collaborer efficacement sur le projet.
+- [Fonctionnalités](#fonctionnalités)
+- [Technologies](#technologies)
+- [Structure du projet](#structure-du-projet)
+- [Installation en local](#installation-en-local)
+- [Configuration de la base de données](#configuration-de-la-base-de-données)
+- [Déploiement en production](#déploiement-en-production)
+- [Méthode de travail](#méthode-de-travail)
+- [Lien maquette](#maquette)
+- [Justification IA](#justification-ia)
+
+## Fonctionnalités
+
+- Inscription, connexion et déconnexion (mots de passe hachés, sessions).
+- Création, modification et suppression d'un voyage avec ses critères.
+- Propositions de combinaisons vol + hôtel au départ de Genève selon le budget,
+  les dates et la taille du groupe.
+- Choix d'une proposition et récapitulatif du voyage (coût total et par
+  personne).
+- Checklist avant le départ : ajouter, cocher et supprimer des tâches.
+- Tableau de bord « Mes voyages ».
+- Espace administrateur pour gérer le catalogue (destinations, vols, hôtels).
+
+Le détail des fonctionnalités principales et optionnelles se trouve dans le
+[cahier des charges](docs/CAHIER_DES_CHARGES_V1.md).
+
+## Technologies
+
+- **PHP 8** avec **PDO** (requêtes préparées)
+- **MariaDB** / MySQL
+- **HTML / CSS**
+- **Docker Compose** pour l'environnement de développement (Apache/PHP, MariaDB,
+  phpMyAdmin, Mailpit)
+- **GitHub Actions** pour le déploiement automatique
+- **Infomaniak** pour l'hébergement de production
 
 ## Structure du projet
 
-```text
+```
 grouptrip/
 │
 ├── 📁 .devcontainer/              # Configuration du conteneur de développement
+├── 📁 .github/
+│   └── 📁 workflows/
+│       └── deploy.yml             # Déploiement automatique vers Infomaniak à chaque push sur main
 ├── 📁 .vscode/                    # Paramètres recommandés pour VS Code
+│
+├── 📁 config/                     # Configuration de l'application (hors de la racine web)
+│   ├── database.example.ini       # Modèle à copier en database.ini (versionné)
+│   └── database.ini               # Identifiants réels de connexion (ignoré par Git)
 │
 ├── 📁 docs/                       # Documentation du projet
 │   ├── CAHIER_DES_CHARGES_V1.md
@@ -64,25 +82,18 @@ grouptrip/
 │       ├── grouptrip-MCD_GroupTrip.drawio.pdf   # Modèle Conceptuel de Données
 │       └── grouptrip-MLD_GroupTrip.drawio.pdf   # Modèle Logique de Données
 │
-├── 📁 initdb/                     # Scripts exécutés à la création de la base MariaDB
+├── 📁 initdb/                     # Scripts SQL de création et de remplissage de la base
 │   ├── 01-schema.sql              # Création des tables (MPD)
 │   ├── 02-catalogue.sql           # Destinations, vols, hôtels (données fictives)
-│   ├── 03-checklists.sql          # Tâches de la checklist (table taches)
-│   └── 04-comptes.sql             # Compte administrateur et compte de démo
+│   ├── 03-comptes.sql             # Compte administrateur et compte de démo
+│   └── 04-taches.sql              # Tâches de la checklist (table taches)
 │
-├── 📁 public/                     # Racine web, seul dossier accessible par le navigateur
-│   ├── 📁 css/
-│   │   ├── reset.css
-│   │   ├── base.css               # Typographie, couleurs, navigation, boutons
-│   │   ├── accueil.css
-│   │   ├── formulaires.css
-│   │   ├── propositions.css
-│   │   └── recapitulatif.css
+├── 📁 public/                     # Racine web : seul dossier accessible depuis le navigateur
+│   ├── 📁 css/                    # Feuilles de style
+│   ├── 📁 images/                 # Visuels du site
 │   ├── 📁 admin/                  # Pages réservées au rôle administrateur
-│   │   ├── index.php
-│   │   ├── destinations.php
-│   │   ├── vols.php
-│   │   └── hotels.php
+│   ├── .htaccess                  # Redirection HTTP → HTTPS
+│   ├── .user.ini                  # Réglages PHP de production (erreurs masquées)
 │   ├── index.php                  # Accueil
 │   ├── inscription.php
 │   ├── connexion.php
@@ -96,8 +107,8 @@ grouptrip/
 │   └── tache.php                  # Ajouter, cocher, supprimer une tâche
 │
 ├── 📁 src/                        # Code back-end, hors de portée du navigateur
-│   ├── database.php               # Connexion PDO
-│   ├── auth.php                   # Session, exiger_connexion(), exiger_admin()
+│   ├── database.php               # Connexion PDO à partir de config/database.ini
+│   ├── auth.php                   # Session, contrôle d'accès (connexion, rôle admin)
 │   ├── validation.php             # Validation des formulaires côté serveur
 │   ├── functions.php              # Utilitaires (échappement HTML, formatage CHF)
 │   ├── 📁 requetes/               # Requêtes préparées, un fichier par domaine
@@ -111,201 +122,242 @@ grouptrip/
 │       ├── nav.php
 │       └── footer.php
 │
-├── .gitignore
-├── compose.yaml                   # Services Apache/PHP, MariaDB, phpMyAdmin, Mailpit
-└── README.md                      # Documentation du projet (ce fichier)
+├── .gitignore                     # Fichiers exclus de Git (dont config/database.ini)
+├── compose.yaml                   # Services locaux : Apache/PHP, MariaDB, phpMyAdmin, Mailpit
+├── JUSTIFICATION_IA.MD            # Justification de notre utilisation de l'IA
+└── README.md                      # Ce fichier
 ```
 
-## Lien figma de notre maquette : https://www.figma.com/design/l5XSbpdj9I4OESRRqoHF9t/GroupTrip?node-id=0-1&t=2pAHEcaONCwkAPRT-1
+La séparation des dossiers suit une règle simple :
 
-- `.devcontainer/`: Contient la configuration pour le développement dans un
-  conteneur Debian (Trixie) avec Visual Studio Code.
-- `.vscode/`: Contient les paramètres recommandés pour Visual Studio Code.
-- `.gitignore`: Fichier de configuration pour Git, spécifiant les fichiers et
-  dossiers à ignorer.
-- `compose.yaml`: Fichier de configuration pour Docker Compose, définissant les
-  services nécessaires pour le projet, avec :
-  - [Apache](https://httpd.apache.org/) : Serveur web pour exécuter les fichiers
-    PHP.
-  - [MariaDB](https://mariadb.org/) : Base de données relationnelle.
-  - [phpMyAdmin](https://www.phpmyadmin.net/) : Interface web pour gérer la base
-    de données MariaDB.
-  - [Mailpit](https://mailpit.axllent.org/) : Serveur SMTP pour tester l'envoi
-    d'e-mails.
-- `index.php`: Fichier PHP principal du projet.
-- `script.sql`: Fichier SQL pour créer la table `my_table` dans la base de
-  données.
-- `README.md`: Ce fichier de documentation.
+- **`public/`** contient uniquement ce que le navigateur peut ouvrir.
+- **`src/`** contient la logique de l'application, incluse par les pages de
+  `public/`.
+- **`config/`** contient la configuration, dont les identifiants de connexion.
+- **`initdb/`** contient la base de données sous forme de scripts SQL.
 
-## Ouvrir le projet localement
+`src/` et `config/` étant placés en dehors de `public/`, ils ne sont jamais
+accessibles depuis Internet.
 
-> [!NOTE]
->
-> Il est important d'ouvrir le dossier du projet directement et non un dossier
-> parent.
->
-> Pensez à bien ouvrir le dossier du projet lui-même (celui qui contient ce
-> fichier README.md) et non un dossier parent. Ouvrir un dossier parent peut
-> entraîner des problèmes de configuration et de fonctionnement de Visual Studio
-> Code.
+## Installation en local
 
-1. Clonez ce dépôt sur votre machine locale.
-2. Ouvrez ce dossier dans Visual Studio Code.
+### Prérequis
 
-## Ouvrir le projet dans un conteneur de développement
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Visual Studio Code](https://code.visualstudio.com/) avec l'extension
+  [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
-Si vous avez l'extension
-[Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-installée, Visual Studio Code vous proposera d'ouvrir le projet dans un
-conteneur Docker.
+### Étapes
 
-Acceptez cette proposition pour bénéficier d'un environnement de développement
-préconfiguré.
+1. **Cloner le dépôt**
 
-Si aucune notification n'apparaît, vous pouvez ouvrir manuellement le conteneur
-en utilisant la commande _"Dev Containers: Reopen in Container"_ dans la palette
-de commandes (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> sur Windows/Linux ou
-<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> sur macOS).
+   ```bash
+   git clone https://github.com/JayleenCurty/CURTY_Jayleen-BACH_Loris.git
+   ```
 
-## Démarrer les services Docker
+2. **Ouvrir le dossier du projet dans VS Code**, puis lancer la commande _« Dev
+   Containers: Reopen in Container »_ (`Cmd`+`Shift`+`P` sur macOS,
+   `Ctrl`+`Shift`+`P` sur Windows/Linux).
 
-Pour démarrer les services Docker nécessaires à développer des applications PHP,
-ouvrez un terminal intégré dans Visual Studio Code et exécutez la commande
-suivante :
+   > Ouvrez bien le dossier du projet lui-même (celui qui contient ce README) et
+   > non un dossier parent.
+
+3. **Créer le fichier de configuration** (voir
+   [Configuration de la base de données](#configuration-de-la-base-de-données))
+   :
+
+   ```bash
+   cp config/database.example.ini config/database.ini
+   ```
+
+4. **Démarrer les services Docker** :
+
+   ```bash
+   docker compose up -d
+   ```
+
+   Au premier démarrage, MariaDB exécute automatiquement les scripts du dossier
+   `initdb/` dans l'ordre (01 → 04) : les tables sont créées et remplies avec
+   les données de test.
+
+5. **Ouvrir l'application** :
+
+| Service                   | Adresse                                                        |
+| ------------------------- | -------------------------------------------------------------- |
+| Application GroupTrip     | [http://localhost:8080/public/](http://localhost:8080/public/) |
+| phpMyAdmin                | [http://localhost:9090](http://localhost:9090)                 |
+| Mailpit (e-mails de test) | [http://localhost:8025](http://localhost:8025)                 |
+
+### Réinitialiser la base locale
+
+Les scripts de `initdb/` ne s'exécutent que lorsque la base est vide. Après une
+modification de ces scripts, il faut recréer la base :
 
 ```bash
-# Démarre tous les services définis dans le fichier compose.yaml
-docker compose up
+docker compose down -v
+docker compose up -d
 ```
 
-Ceci va démarrer les services suivants dans des conteneurs Docker :
+> ⚠️ L'option `-v` supprime toutes les données de la base locale.
 
-- Apache (port 8080) : Serveur web pour exécuter les fichiers PHP.
-- MariaDB (port 3306) : Base de données relationnelle.
-- phpMyAdmin (port 9090) : Interface web pour gérer la base de données MariaDB.
-- Mailpit (ports 1025 et 8025) : Serveur SMTP pour tester l'envoi d'e-mails.
-
-## Se connecter à la base de données MariaDB avec phpMyAdmin
-
-La configuration Docker Compose inclut également phpMyAdmin, un outil web pour
-gérer les bases de données MariaDB.
-
-Pour accéder à phpMyAdmin, ouvrez votre navigateur et rendez-vous à l'adresse
-suivante : <http://localhost:9090>.
-
-Vous pourrez alors vous connecter à la base de données en utilisant les
-identifiants décrits dans le fichier `compose.yaml` (par défaut, l'utilisateur
-est `username` et le mot de passe est `password`).
-
-## Exécuter des requêtes SQL sur la base de données MariaDB
-
-Une fois connecté à la base de données MariaDB via phpMyAdmin, vous pouvez
-exécuter des requêtes SQL pour créer des tables, insérer des données ou
-effectuer d'autres opérations sur la base de données.
-
-1. Ouvrez/créez un fichier SQL dans Visual Studio Code (par exemple,
-   `script.sql`).
-2. Écrivez votre requête SQL dans ce fichier (par exemple, une requête pour
-   créer une table ou insérer des données).
-3. Dans l'onglet "SQL" de phpMyAdmin, vous pouvez copier et coller votre requête
-   SQL depuis le fichier `script.sql` et l'exécuter pour appliquer les
-   modifications à la base de données.
-
-## Voir les données de la table `my_table`
-
-Une fois le ou les scripts SQL exécutés, vous pouvez vérifier que les données
-ont été correctement insérées dans la table `my_table` dans le menu latéral
-gauche de phpMyAdmin. Cliquez sur le nom de la base de données, puis sur le nom
-de la table pour voir les données.
-
-## Exécuter vos scripts PHP
-
-La configuration Docker Compose inclut un serveur web Apache avec PHP, ce qui
-vous permet d'exécuter vos scripts PHP directement dans le conteneur.
-
-Le serveur sera accessible à l'adresse <http://localhost:8080> dans votre
-navigateur.
-
-La liste des fichiers PHP disponibles sera affichée, et vous pourrez cliquer sur
-un fichier pour l'exécuter.
-
-Les scripts PHP peuvent se connecter à la base de données MariaDB en utilisant
-le nom d'hôte `mariadb` et les identifiants définis dans le fichier
-`compose.yaml`.
-
-En accédant à l'adresse <http://localhost:8080/public/index.php>, vous pourrez
-exécuter le script PHP principal du projet.
-
-La page d'accueil de démonstration affiche un message de bienvenue et utilise la
-base de données MariaDB pour afficher les données de la table `my_table`.
-
-## Visualiser les e-mails envoyés par votre application PHP
-
-Le serveur SMTP Mailpit est inclus dans la configuration Docker Compose pour
-vous permettre de tester l'envoi d'e-mails depuis votre application PHP.
-
-Pour accéder à l'interface web de Mailpit, ouvrez votre navigateur et
-rendez-vous à l'adresse suivante : <http://localhost:8025>.
-
-Vous y verrez la liste des e-mails envoyés par votre application PHP, ainsi que
-leur contenu et les détails de l'envoi.
-
-Si vous fermez/redémarrez Mailpit, les e-mails précédemment envoyés seront
-perdus, car ils ne sont pas stockés de manière persistante.
-
-## Arrêter les services Docker
-
-Si vous avez exécuté la commande `docker compose up` pour démarrer les services
-Docker, vous pouvez les arrêter avec le raccourci clavier
-<kbd>Ctrl</kbd>+<kbd>C</kbd> dans le terminal où la commande a été exécutée.
-Cela arrêtera les services et libérera les ressources utilisées par les
-conteneurs Docker.
-
-Sinon, vous pouvez également arrêter les services Docker en ouvrant un terminal
-intégré dans Visual Studio Code et en exécutant la commande suivante :
+### Arrêter les services
 
 ```bash
-# Arrête tous les services définis dans le fichier compose.yaml
 docker compose down
 ```
 
-Lorsque vous fermez Visual Studio Code, les conteneurs Docker seront
-automatiquement arrêtés. Dès que vous rouvrez Visual Studio Code et que vous
-exécutez à nouveau la commande `docker compose up`, les services Docker seront
-redémarrés.
+## Configuration de la base de données
+
+Les informations de connexion à la base de données ne sont pas écrites dans le
+code : elles proviennent du fichier de configuration **`config/database.ini`**,
+lu par `src/database.php`.
+
+```ini
+host = "..."
+port = 3306
+database = "..."
+username = "..."
+password = "..."
+```
+
+Ce fichier contient des identifiants et n'est donc **jamais versionné** : il est
+listé dans `.gitignore`. Seul le modèle `config/database.example.ini` est
+présent dans le dépôt.
+
+Chaque environnement possède son propre `database.ini` :
+
+| Environnement           | `host`                      | Identifiants                                     |
+| ----------------------- | --------------------------- | ------------------------------------------------ |
+| Local (Docker)          | `mariadb`                   | Ceux définis dans `compose.yaml`                 |
+| Production (Infomaniak) | `in6xl4.myd.infomaniak.com` | Ceux de la base créée dans le Manager Infomaniak |
+
+Le même code fonctionne ainsi partout : seul le contenu de `database.ini`
+change.
+
+## Déploiement en production
+
+L'application est hébergée chez **Infomaniak**, sur l'hébergement web mis à
+disposition par la HEIG-VD.
+
+🌍 **URL du site :
+[https://grouptrip.lorisbach.ch](https://grouptrip.lorisbach.ch)**
+
+### 1. Dossier racine du site
+
+Dans le Manager Infomaniak, le dossier cible du site `grouptrip.lorisbach.ch`
+est défini sur :
+
+```
+/sites/grouptrip.lorisbach.ch/public
+```
+
+Le serveur n'expose donc que le contenu de `public/`. Les dossiers `config/` et
+`src/` sont présents sur le serveur, mais situés au-dessus de la racine web :
+ils restent lisibles par PHP, mais inaccessibles depuis le navigateur. Par
+exemple, l'adresse `https://grouptrip.lorisbach.ch/config/database.ini` renvoie
+une erreur 404.
+
+Le site est servi en **HTTPS** grâce à un certificat Let's Encrypt, avec une
+redirection automatique de HTTP vers HTTPS définie dans `public/.htaccess`.
+
+### 2. Envoi des fichiers sur le serveur
+
+Les fichiers sont envoyés automatiquement sur le serveur par **GitHub Actions**,
+à chaque push sur la branche `main` (donc à chaque pull request mergée).
+
+Le workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) :
+
+1. récupère le code du dépôt ;
+2. se connecte au serveur FTP d'Infomaniak (`in6xl4.ftp.infomaniak.com`) ;
+3. envoie uniquement les fichiers modifiés depuis le dernier déploiement.
+
+**Sécurité du déploiement :**
+
+- Les identifiants FTP sont stockés dans les **secrets du dépôt GitHub**
+  (`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`) et n'apparaissent jamais dans
+  le code.
+- Le compte FTP utilisé (`in6xl4_deploy`) est un compte dédié, **limité au seul
+  dossier du site** et sans accès SSH.
+
+**Fichiers exclus du déploiement**, car ils ne servent qu'au développement :
+`.devcontainer/`, `.vscode/`, `.github/`, `docs/`, `initdb/`, `compose.yaml` et
+`README.md`.
+
+Le suivi des déploiements se fait dans l'onglet
+[Actions](https://github.com/JayleenCurty/CURTY_Jayleen-BACH_Loris/actions) du
+dépôt.
+
+> **Règle de l'équipe :** seul du code fonctionnel est mergé sur `main`, puisque
+> chaque merge met le site en ligne à jour.
+
+### 3. Création de `config/database.ini` sur le serveur
+
+`database.ini` n'étant pas versionné, il n'est jamais envoyé par GitHub Actions.
+Il a été créé **une seule fois, à la main**, directement sur le serveur :
+
+1. Manager Infomaniak → **Hébergement Web** → **FTP / SSH** → **Web FTP**.
+2. Ouvrir le dossier `/sites/grouptrip.lorisbach.ch/config/`.
+3. Créer le fichier `database.ini` avec les identifiants de la base de
+   production :
+
+   ```ini
+   host = "in6xl4.myd.infomaniak.com"
+   port = 3306
+   database = "in6xl4_grouptrip"
+   username = "<utilisateur de la base Infomaniak>"
+   password = "<mot de passe de la base Infomaniak>"
+   ```
+
+Comme il n'existe pas dans le dépôt, ce fichier n'est jamais écrasé ni supprimé
+par les déploiements suivants.
+
+### 4. Import des scripts SQL dans phpMyAdmin (Infomaniak)
+
+La base de production `in6xl4_grouptrip` a été créée depuis le Manager
+Infomaniak. Les tables et les données y ont ensuite été importées avec le
+phpMyAdmin d'Infomaniak :
+
+1. Ouvrir phpMyAdmin depuis le Manager Infomaniak (**Hébergement Web** → **Bases
+   de données**).
+2. Sélectionner la base **`in6xl4_grouptrip`** dans la colonne de gauche.
+3. Ouvrir l'onglet **Importer**.
+4. Importer les scripts du dossier `initdb/` **dans l'ordre**, un par un :
+   1. `01-schema.sql` – création des tables
+   2. `02-catalogue.sql` – destinations, vols et hôtels
+   3. `03-comptes.sql` – comptes administrateur et de démonstration
+   4. `04-taches.sql` – tâches de la checklist
+
+L'ordre est important : les données dépendent des tables, et les tâches
+dépendent des voyages, qui dépendent des comptes.
+
+> Chez un hébergeur, la création d'une base de données n'est pas autorisée en
+> SQL. Les scripts ne contiennent donc ni `CREATE DATABASE` ni `USE` : les
+> tables sont créées dans la base sélectionnée au moment de l'import.
+
+### Limite connue
+
+Le transfert entre GitHub et Infomaniak se fait en FTP non chiffré, l'outil de
+déploiement n'étant pas compatible avec le mode FTPS du serveur. Le risque est
+limité (compte dédié restreint au dossier du site, sans SSH, identifiants
+stockés dans les secrets GitHub), mais une amélioration possible serait un
+déploiement par SFTP/SSH.
+
+## Méthode de travail
+
+Le projet suit le workflow GitHub étudié en cours :
+
+1. une **issue** par tâche ;
+2. une **branche** par issue (par exemple `20-config-databaseini`) ;
+3. une **pull request** relue par l'autre membre de l'équipe avant d'être mergée
+   sur `main` ;
+4. un **déploiement automatique** en production à chaque merge sur `main`.
+
+## Lien maquette Figma
+
+- 🎨
+  [Maquette Figma](https://www.figma.com/design/l5XSbpdj9I4OESRRqoHF9t/GroupTrip?node-id=0-1&t=2pAHEcaONCwkAPRT-1)
 
 ## Justification IA
 
-### IA utilisée pour création de maquettes
-
-Nous avons utilisé l'IA pour la création des maquettes afin de pouvoir avancer
-plus vite sur les autres aspects du projets. En effet, nous avons jugé plus
-judicieux de passer moins de temps sur cette étape là afin de se laisser de plus
-grandes marges pour les autres étapes de notre ambitieux projet.
-
-L'IA n'a pas décidé du contenu à notre place. Nous lui avons fourni notre cahier
-des charges, rédigé par nos soins, et elle en a tiré une proposition visuelle :
-accueil, création d'un voyage, propositions, récapitulatif avec checklist et
-tableau de bord « Mes voyages ». Nous avons ensuite relu chaque écran pour
-vérifier qu'il correspondait bien aux fonctionnalités prévues, et corrigé ou
-écarté ce qui n'était pas cohérent avec notre périmètre.
-
-Les maquettes restent un support de réflexion. Elles ont été générées avec Figma
-AI et Lovable sous forme de prototype côté navigateur, avec des données
-fictives, et aucun code issu de cet outil ne sera repris dans l'application
-finale. L'ensemble du code PHP, des requêtes SQL et de la structure de la base
-sera écrit par nous.
-
-Nous présentons deux maquettes, car nous n'avons pas encore tranché entre les
-deux directions et que chacune nous plaît pour des raisons différentes. La
-première organise l'application en onglets (Parcours, Mes voyages, Propositions,
-Préparatifs, Connexion / compte) et laisse l'utilisateur passer librement d'une
-vue à l'autre. La seconde suit un parcours guidé en trois étapes (création,
-résultats, récapitulatif), avec un tableau de bord plus détaillé pour retrouver
-ses voyages.
-
-Les deux couvrent les mêmes fonctionnalités du cahier des charges. Le choix ne
-touche donc que la présentation : la base de données, les requêtes et la logique
-PHP restent identiques dans les deux cas. C'est pourquoi nous préférons ne pas
-nous restreindre à ce stade. Nous déciderons une fois les fonctionnalités
-principales en place, en fonction du temps qu'il nous restera pour l'interface.
+Concernant l'utilisation de l'IA dans notre projet tout est détaillé dans le
+fichier "JUSTIFICATION_IA.MD" sur notre git.
