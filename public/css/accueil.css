@@ -1,0 +1,186 @@
+/* Page d'accueil */
+
+/* Billet d'avion : partie principale à gauche, talon à droite */
+.billet {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	background: var(--carte);
+	border: 1.5px solid var(--texte);
+	border-radius: 14px;
+	margin-top: 2rem;
+}
+
+.billet-principal {
+	padding: 2.5rem;
+	border-right: 2px dashed var(--trait);
+}
+
+.trajet {
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: 2.4rem;
+	font-weight: 700;
+}
+
+.trajet span {
+	color: var(--accent);
+	font-size: 3.4rem;
+	line-height: 1;
+	vertical-align: -0.1em;
+	margin: 0 0.6rem;
+}
+
+.billet h1 {
+	font-size: 2rem;
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	max-width: 18ch;
+	margin: 1rem 0 1.75rem;
+}
+
+.billet-talon {
+	padding: 2.5rem 2rem;
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: 0.8rem;
+	color: var(--gris);
+}
+
+.billet-talon p {
+	margin-bottom: 1.1rem;
+}
+
+.billet-talon strong {
+	display: block;
+	font-size: 1rem;
+	color: var(--texte);
+}
+
+/* Comment ça marche : trois colonnes sous un trait */
+.etapes {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5rem;
+	margin-top: 3.5rem;
+	padding-top: 1.25rem;
+	border-top: 2px solid var(--texte);
+}
+
+/* Grand numéro, comme dans la maquette */
+.numero {
+	display: block;
+	font-size: 3rem;
+	font-weight: 300;
+	line-height: 1;
+	color: var(--accent);
+	margin-bottom: 0.75rem;
+}
+
+.etape h2 {
+	font-size: 1.1rem;
+	margin: 0.2rem 0;
+}
+
+.etape p {
+	color: var(--gris);
+	font-size: 0.95rem;
+}
+
+/* Chiffres sous le billet */
+.chiffres {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	text-align: center;
+	margin-top: 2rem;
+	color: var(--gris);
+	font-size: 0.85rem;
+}
+
+.chiffres strong {
+	display: block;
+	font-size: 1.6rem;
+	color: var(--texte);
+}
+
+/* Types de voyage (gauche) + destinations (droite) */
+.evenements {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3rem;
+	margin-top: 4rem;
+}
+
+.evenements h2 {
+	font-size: 1.6rem;
+	margin-bottom: 1.5rem;
+}
+
+.types li {
+	list-style: none;
+	padding: 0.7rem 0;
+	border-bottom: 1px solid var(--trait);
+}
+
+.types li::before {
+	content: "■";
+	font-size: 0.6rem;
+	color: var(--accent);
+	margin-right: 0.75rem;
+	vertical-align: middle;
+}
+
+.destinations {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.75rem;
+}
+
+.destination {
+	background: var(--carte);
+	border: 1.5px solid var(--texte);
+	border-radius: 10px;
+	padding: 1.25rem;
+	min-height: 140px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+
+.destination-type {
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: 0.75rem;
+	color: var(--accent);
+}
+
+.destination h3 {
+	font-size: 1.15rem;
+}
+
+.destination p {
+	font-size: 0.9rem;
+	color: var(--gris);
+}
+
+/* Sur téléphone : tout passe en une colonne */
+@media (max-width: 700px) {
+	.billet {
+		grid-template-columns: 1fr;
+	}
+
+	.billet-principal {
+		padding: 1.75rem;
+		border-right: none;
+		border-bottom: 2px dashed var(--trait);
+	}
+
+	.billet-talon {
+		padding: 1.5rem 1.75rem;
+	}
+
+	.trajet {
+		font-size: 1.8rem;
+	}
+
+	.etapes,
+	.evenements {
+		grid-template-columns: 1fr;
+	}
+}
