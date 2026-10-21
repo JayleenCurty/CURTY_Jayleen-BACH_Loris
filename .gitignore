@@ -12,3 +12,7 @@ Thumbs.db
 
 # Folder config file
 [Dd]esktop.ini
+
+
+##ignorer fichier config database
+config/database.ini
