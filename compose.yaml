@@ -65,6 +65,6 @@ services:
     environment:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
-      - PMA_DATABASE=my_database
+      - PMA_DATABASE=grouptrip
     ports:
       - 9090:80
