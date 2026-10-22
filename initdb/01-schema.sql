@@ -40,6 +40,7 @@ CREATE TABLE destination (
     ville             VARCHAR(100)  NOT NULL,
     code_aeroport     CHAR(3)       NOT NULL,
     description       TEXT          NULL,
+    image             VARCHAR(255)  NULL,     -- nom du fichier dans public/images/destinations/
     type_destination  ENUM('plage', 'ville', 'montagne', 'nature') NOT NULL,
     PRIMARY KEY (id)
 );
