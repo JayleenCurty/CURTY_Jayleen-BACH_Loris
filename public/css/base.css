@@ -21,6 +21,9 @@ body {
 	line-height: 1.5;
 	color: var(--texte);
 	background: var(--fond);
+
+	/* Le body prend toute la hauteur de l'écran, en colonne :
+       header en haut, main au milieu, footer en bas */
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -31,11 +34,11 @@ a {
 	text-decoration: none;
 }
 
+/* Le main prend toute la place restante : il pousse le footer en bas */
 .page {
 	flex: 1;
-	max-width: 900px;
-	margin: 0 auto;
-	padding: 0 1rem;
+	width: 100%;
+	padding: 0 3rem;
 }
 
 /* Boutons */
@@ -61,13 +64,12 @@ a {
 }
 
 .btn:hover {
-	opacity: 0.8;
+	opacity: 0.85;
 }
 
 /* En-tête */
 .site-header {
-	width: 100%;
-	padding: 1.5rem 1rem;
+	padding: 1.5rem 3rem;
 	display: flex;
 	justify-content: space-between;
 }
@@ -85,12 +87,25 @@ a {
 	color: var(--accent);
 }
 
+.bonjour {
+	color: var(--gris);
+}
+
 /* Pied de page */
 .site-footer {
-	width: 100%;
 	margin-top: 4rem;
-	padding: 1.5rem 1rem;
+	padding: 1.5rem 3rem;
 	border-top: 1px solid var(--trait);
 	font-size: 0.85rem;
 	color: var(--gris);
+}
+
+/* Sur téléphone : marges latérales plus petites */
+@media (max-width: 700px) {
+	.page,
+	.site-header,
+	.site-footer {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
 }

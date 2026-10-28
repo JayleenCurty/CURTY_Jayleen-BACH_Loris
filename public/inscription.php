@@ -1,6 +1,12 @@
 <?php
 require_once __DIR__ . '/../src/autoload.php';
 
+// Déjà connecté : pas besoin de créer un compte
+if (Auth::estConnecte()) {
+    header('Location: mes-voyages.php');
+    exit;
+}
+
 $database           = new Database();
 $utilisateurManager = new UtilisateurManager($database->getPdo());
 
@@ -52,92 +58,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+
+$titrePage = 'Inscription';
+$cssPage   = 'formulaires';
+require __DIR__ . '/../src/partials/header.php';
 ?>
-<!doctype html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inscription - GroupTrip</title>
-    <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/base.css" />
-    <link rel="stylesheet" href="./css/formulaires.css" />
-</head>
+<main class="page">
+    <section class="carte-formulaire">
+        <h1>Créer un compte</h1>
+        <p class="sous-titre">Pour organiser et retrouver vos voyages.</p>
 
-<body>
-    <header class="site-header">
-        <a href="index.php" class="logo">GroupTrip</a>
-        <nav>
-            <a href="connexion.php">Connexion</a>
-            <a href="inscription.php">Inscription</a>
-        </nav>
-    </header>
-
-    <main class="page">
-        <section class="carte-formulaire">
-            <h1>Créer un compte</h1>
-            <p class="sous-titre">Pour organiser et retrouver vos voyages.</p>
-
-            <form method="post" action="inscription.php">
-                <div class="ligne">
-                    <div class="champ">
-                        <label for="prenom">Prénom</label>
-                        <input type="text" id="prenom" name="prenom" maxlength="50" required
-                            value="<?= htmlspecialchars($prenom) ?>" />
-                        <?php if (isset($erreurs['prenom'])): ?>
-                            <p class="erreur"><?= htmlspecialchars($erreurs['prenom']) ?></p>
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="champ">
-                        <label for="nom">Nom</label>
-                        <input type="text" id="nom" name="nom" maxlength="50" required
-                            value="<?= htmlspecialchars($nom) ?>" />
-                        <?php if (isset($erreurs['nom'])): ?>
-                            <p class="erreur"><?= htmlspecialchars($erreurs['nom']) ?></p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
+        <form method="post" action="inscription.php">
+            <div class="ligne">
                 <div class="champ">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required
-                        value="<?= htmlspecialchars($email) ?>" />
-                    <?php if (isset($erreurs['email'])): ?>
-                        <p class="erreur"><?= htmlspecialchars($erreurs['email']) ?></p>
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" maxlength="50" required
+                        value="<?= htmlspecialchars($prenom) ?>" />
+                    <?php if (isset($erreurs['prenom'])): ?>
+                        <p class="erreur"><?= htmlspecialchars($erreurs['prenom']) ?></p>
                     <?php endif; ?>
                 </div>
 
                 <div class="champ">
-                    <label for="mot_de_passe">Mot de passe</label>
-                    <input type="password" id="mot_de_passe" name="mot_de_passe" minlength="8" required />
-                    <p class="aide">8 caractères minimum.</p>
-                    <?php if (isset($erreurs['mot_de_passe'])): ?>
-                        <p class="erreur"><?= htmlspecialchars($erreurs['mot_de_passe']) ?></p>
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" maxlength="50" required
+                        value="<?= htmlspecialchars($nom) ?>" />
+                    <?php if (isset($erreurs['nom'])): ?>
+                        <p class="erreur"><?= htmlspecialchars($erreurs['nom']) ?></p>
                     <?php endif; ?>
                 </div>
+            </div>
 
-                <div class="champ">
-                    <label for="confirmation">Confirmer le mot de passe</label>
-                    <input type="password" id="confirmation" name="confirmation" minlength="8" required />
-                    <?php if (isset($erreurs['confirmation'])): ?>
-                        <p class="erreur"><?= htmlspecialchars($erreurs['confirmation']) ?></p>
-                    <?php endif; ?>
-                </div>
+            <div class="champ">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required
+                    value="<?= htmlspecialchars($email) ?>" />
+                <?php if (isset($erreurs['email'])): ?>
+                    <p class="erreur"><?= htmlspecialchars($erreurs['email']) ?></p>
+                <?php endif; ?>
+            </div>
 
-                <button type="submit" class="btn">Créer mon compte</button>
-            </form>
+            <div class="champ">
+                <label for="mot_de_passe">Mot de passe</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" minlength="8" required />
+                <p class="aide">8 caractères minimum.</p>
+                <?php if (isset($erreurs['mot_de_passe'])): ?>
+                    <p class="erreur"><?= htmlspecialchars($erreurs['mot_de_passe']) ?></p>
+                <?php endif; ?>
+            </div>
 
-            <p class="bas-formulaire">
-                Déjà un compte ? <a href="connexion.php">Se connecter</a>
-            </p>
-        </section>
-    </main>
+            <div class="champ">
+                <label for="confirmation">Confirmer le mot de passe</label>
+                <input type="password" id="confirmation" name="confirmation" minlength="8" required />
+                <?php if (isset($erreurs['confirmation'])): ?>
+                    <p class="erreur"><?= htmlspecialchars($erreurs['confirmation']) ?></p>
+                <?php endif; ?>
+            </div>
 
-    <footer class="site-footer">
-        Projet ProgServ2 – HEIG-VD
-    </footer>
-</body>
+            <button type="submit" class="btn">Créer mon compte</button>
+        </form>
 
-</html>
+        <p class="bas-formulaire">
+            Déjà un compte ? <a href="connexion.php">Se connecter</a>
+        </p>
+    </section>
+</main>
+
+
+<?php require __DIR__ . '/../src/partials/footer.php'; ?>

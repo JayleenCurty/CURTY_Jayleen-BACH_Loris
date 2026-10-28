@@ -16,6 +16,16 @@ class UtilisateurManager {
         return (int) $requete->fetchColumn() > 0;
     }
 
+    // Retourne l'utilisateur qui a cet e-mail, ou null s'il n'existe pas
+    public function trouverParEmail(string $email): ?array {
+        $requete = $this->pdo->prepare('SELECT * FROM utilisateur WHERE email = :email');
+        $requete->execute(['email' => $email]);
+        $utilisateur = $requete->fetch();
+
+        // fetch() retourne false quand il n'y a aucune ligne
+        return $utilisateur === false ? null : $utilisateur;
+    }
+
     // Crée un compte (rôle "user" par défaut) et retourne son id
     public function creer(string $prenom, string $nom, string $email, string $motDePasse): int {
         $requete = $this->pdo->prepare(
