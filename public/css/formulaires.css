@@ -96,3 +96,22 @@
 		gap: 0;
 	}
 }
+
+/* Messages en haut du formulaire */
+.succes,
+.erreur-globale {
+	padding: 0.7rem 0.9rem;
+	border-radius: 8px;
+	margin-bottom: 1.25rem;
+	font-size: 0.9rem;
+}
+
+.succes {
+	background: #e3f4ea;
+	color: #1e6b3a;
+}
+
+.erreur-globale {
+	background: #fdecea;
+	margin-top: 0;
+}
