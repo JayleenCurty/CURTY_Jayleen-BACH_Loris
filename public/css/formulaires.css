@@ -1,0 +1,98 @@
+/* Formulaires (inscription, connexion, création de voyage...) */
+
+.carte-formulaire {
+	max-width: 480px;
+	margin: 2rem auto;
+	padding: 2.5rem;
+	background: var(--carte);
+	border: 1.5px solid var(--texte);
+	border-radius: 14px;
+}
+
+.carte-formulaire h1 {
+	font-size: 1.8rem;
+}
+
+.sous-titre {
+	color: var(--gris);
+	margin-bottom: 1.75rem;
+}
+
+/* Deux champs côte à côte (prénom / nom) */
+.ligne {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.champ {
+	margin-bottom: 1.1rem;
+}
+
+.champ label {
+	display: block;
+	font-weight: 600;
+	font-size: 0.9rem;
+	margin-bottom: 0.3rem;
+}
+
+.champ input {
+	width: 100%;
+	padding: 0.65rem 0.8rem;
+	font: inherit;
+	color: var(--texte);
+	background: #fff;
+	border: 1.5px solid var(--trait);
+	border-radius: 8px;
+}
+
+.champ input:focus {
+	outline: none;
+	border-color: var(--texte);
+}
+
+.aide {
+	font-size: 0.8rem;
+	color: var(--gris);
+	margin-top: 0.25rem;
+}
+
+.erreur {
+	font-size: 0.85rem;
+	color: #b42318;
+	margin-top: 0.3rem;
+}
+
+.carte-formulaire .btn {
+	width: 100%;
+	margin-top: 0.5rem;
+	font: inherit;
+	cursor: pointer;
+}
+
+.bas-formulaire {
+	text-align: center;
+	margin-top: 1.5rem;
+	font-size: 0.9rem;
+	color: var(--gris);
+}
+
+.bas-formulaire a {
+	color: var(--texte);
+	text-decoration: underline;
+}
+
+.bas-formulaire a:hover {
+	color: var(--accent);
+}
+
+@media (max-width: 700px) {
+	.carte-formulaire {
+		padding: 1.5rem;
+	}
+
+	.ligne {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+}
