@@ -1,15 +1,19 @@
 <?php
-require_once __DIR__ . '/../src/database.php';
+require_once __DIR__ . '/../src/autoload.php';
 
-// Chiffres affichés sous le billet (lus dans la base)
-$nbDestinations = (int) $pdo->query('SELECT COUNT(*) FROM destination')->fetchColumn();
-$nbVols         = (int) $pdo->query('SELECT COUNT(*) FROM vol')->fetchColumn();
-$nbHotels       = (int) $pdo->query('SELECT COUNT(*) FROM hotel')->fetchColumn();
+// Connexion à la base et création des objets dont la page a besoin
+$database           = new Database();
+$destinationManager = new DestinationManager($database->getPdo());
+$volManager         = new VolManager($database->getPdo());
+$hotelManager       = new HotelManager($database->getPdo());
+
+// Chiffres affichés sous le billet
+$nbDestinations = $destinationManager->compter();
+$nbVols         = $volManager->compter();
+$nbHotels       = $hotelManager->compter();
 
 // Quatre destinations pour la section du bas
-$destinations = $pdo->query(
-    'SELECT ville, pays, type_destination FROM destination ORDER BY ville LIMIT 4'
-)->fetchAll();
+$destinations = $destinationManager->getQuelquesDestinations(4);
 
 // Types de voyage (correspondent à l'ENUM type_voyage de la table voyage)
 $typesVoyage = [
