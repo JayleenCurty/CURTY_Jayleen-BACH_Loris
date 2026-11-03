@@ -123,4 +123,13 @@ return [
     'mes_voyages.propositions'   => 'Choose flight and hotel',
     'mes_voyages.modifier'       => 'Edit',
     'mes_voyages.supprimer'      => 'Delete',
+
+    // Supprimer un voyage
+    'supprimer.titre_page'  => 'Delete a trip',
+    'supprimer.titre'       => 'Delete this trip?',
+    'supprimer.texte'       => '"{nom}" and its checklist will be permanently deleted.',
+    'supprimer.confirmer'   => 'Yes, delete',
+    'supprimer.annuler'     => 'Cancel',
+    'supprimer.err_jeton'   => 'The request has expired. Please try again.',
+    'mes_voyages.supprime'  => 'Trip deleted.',
 ];

@@ -136,3 +136,22 @@
 	outline: none;
 	border-color: var(--texte);
 }
+
+/* Page de confirmation (suppression) : deux boutons côte à côte */
+.actions-confirmation {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.actions-confirmation .btn {
+	width: auto;
+	flex: 1;
+	text-align: center;
+}
+
+.btn-danger {
+	background: #b42318;
+	border-color: #b42318;
+	color: #fff;
+}
