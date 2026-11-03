@@ -115,3 +115,24 @@
 	background: #fdecea;
 	margin-top: 0;
 }
+
+/* Carte plus large pour les formulaires à plusieurs colonnes (création de voyage) */
+.carte-formulaire.carte-large {
+	max-width: 640px;
+}
+
+/* Listes déroulantes : même style que les champs texte */
+.champ select {
+	width: 100%;
+	padding: 0.65rem 0.8rem;
+	font: inherit;
+	color: var(--texte);
+	background: #fff;
+	border: 1.5px solid var(--trait);
+	border-radius: 8px;
+}
+
+.champ select:focus {
+	outline: none;
+	border-color: var(--texte);
+}
