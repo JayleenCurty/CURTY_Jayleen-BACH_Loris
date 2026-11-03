@@ -42,14 +42,14 @@ CREATE TABLE
     destination (
         id INT NOT NULL AUTO_INCREMENT,
         pays VARCHAR(100) NOT NULL,
+        pays_en VARCHAR(100) NOT NULL, -- traduction anglaise (i18n)
         ville VARCHAR(100) NOT NULL,
+        ville_en VARCHAR(100) NOT NULL, -- traduction anglaise (i18n)
         code_aeroport CHAR(3) NOT NULL,
         description TEXT NULL,
+        description_en TEXT NULL, -- traduction anglaise (i18n)
         image VARCHAR(255) NULL, -- nom du fichier dans public/images/destinations/
         type_destination ENUM ('plage', 'ville', 'montagne', 'nature') NOT NULL,
-        ville_en VARCHAR(100) NOT NULL,
-        pays_en VARCHAR(100) NOT NULL,
-        description_en TEXT NULL,
         PRIMARY KEY (id)
     );
 
