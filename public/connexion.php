@@ -32,21 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Même message que l'e-mail ou le mot de passe soit faux :
     // on ne révèle pas quelles adresses ont un compte
-    $erreur = 'E-mail ou mot de passe incorrect.';
+    $erreur = Lang::t('connexion.erreur');
 }
 
-$titrePage = 'Connexion';
+$titrePage = Lang::t('connexion.titre_page');
 $cssPage   = 'formulaires';
 require __DIR__ . '/../src/partials/header.php';
 ?>
 
 <main class="page">
     <section class="carte-formulaire">
-        <h1>Se connecter</h1>
-        <p class="sous-titre">Pour retrouver vos voyages.</p>
+        <h1><?= htmlspecialchars(Lang::t('connexion.titre')) ?></h1>
+        <p class="sous-titre"><?= htmlspecialchars(Lang::t('connexion.sous_titre')) ?></p>
 
         <?php if ($inscriptionReussie): ?>
-            <p class="succes">Compte créé. Vous pouvez maintenant vous connecter.</p>
+            <p class="succes"><?= htmlspecialchars(Lang::t('connexion.succes')) ?></p>
         <?php endif; ?>
 
         <?php if ($erreur !== ''): ?>
@@ -55,21 +55,21 @@ require __DIR__ . '/../src/partials/header.php';
 
         <form method="post" action="connexion.php">
             <div class="champ">
-                <label for="email">E-mail</label>
+                <label for="email"><?= htmlspecialchars(Lang::t('connexion.email')) ?></label>
                 <input type="email" id="email" name="email" required
                     value="<?= htmlspecialchars($email) ?>" />
             </div>
 
             <div class="champ">
-                <label for="mot_de_passe">Mot de passe</label>
+                <label for="mot_de_passe"><?= htmlspecialchars(Lang::t('connexion.mot_de_passe')) ?></label>
                 <input type="password" id="mot_de_passe" name="mot_de_passe" required />
             </div>
 
-            <button type="submit" class="btn">Se connecter</button>
+            <button type="submit" class="btn"><?= htmlspecialchars(Lang::t('connexion.bouton')) ?></button>
         </form>
 
         <p class="bas-formulaire">
-            Pas encore de compte ? <a href="inscription.php">Créer un compte</a>
+            <?= htmlspecialchars(Lang::t('connexion.pas_compte')) ?> <a href="inscription.php"><?= htmlspecialchars(Lang::t('connexion.creer_compte')) ?></a>
         </p>
     </section>
 </main>

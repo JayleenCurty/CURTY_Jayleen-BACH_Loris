@@ -1,0 +1,89 @@
+<?php
+// Textes de l'interface en anglais.
+// Les clés doivent être les mêmes que dans fr.php.
+
+return [
+    // Navigation (header / footer)
+    'nav.connexion'   => 'Log in',
+    'nav.inscription' => 'Sign up',
+    'nav.mes_voyages' => 'My trips',
+    'nav.deconnexion' => 'Log out',
+    'nav.bonjour'     => 'Hello {prenom}',
+    'footer.texte'    => 'ProgServ2 project – HEIG-VD',
+
+    // Accueil
+    'accueil.titre_page'        => 'Home',
+    'accueil.titre'             => 'Plan your group trip',
+    'accueil.planifier'         => 'Plan a trip',
+    'accueil.se_connecter'      => 'Log in',
+    'accueil.passagers'         => 'Passengers',
+    'accueil.passagers_valeur'  => '2 to 30',
+    'accueil.depart'            => 'Departure',
+    'accueil.depart_valeur'     => 'Geneva Airport',
+    'accueil.destination'       => 'Destination',
+    'accueil.destination_valeur' => 'Up to you',
+    'accueil.nb_destinations'   => 'destinations',
+    'accueil.nb_vols'           => 'flights',
+    'accueil.nb_hotels'         => 'hotels',
+    'accueil.etape1_titre'      => 'Your criteria',
+    'accueil.etape1_texte'      => 'Group size, budget and dates.',
+    'accueil.etape2_titre'      => 'A proposal',
+    'accueil.etape2_texte'      => 'A flight and a hotel for the whole group.',
+    'accueil.etape3_titre'      => 'Departure',
+    'accueil.etape3_texte'      => 'A checklist to tick off before you leave.',
+    'accueil.evenement'         => 'Whatever the occasion',
+
+    // Inscription
+    'inscription.titre_page'      => 'Sign up',
+    'inscription.titre'           => 'Create an account',
+    'inscription.sous_titre'      => 'To plan and keep track of your trips.',
+    'inscription.prenom'          => 'First name',
+    'inscription.nom'             => 'Last name',
+    'inscription.email'           => 'Email',
+    'inscription.mot_de_passe'    => 'Password',
+    'inscription.aide_mdp'        => 'At least 8 characters.',
+    'inscription.confirmation'    => 'Confirm password',
+    'inscription.bouton'          => 'Create my account',
+    'inscription.deja_compte'     => 'Already have an account?',
+    'inscription.se_connecter'    => 'Log in',
+    'inscription.err_prenom'      => 'First name is required (50 characters max).',
+    'inscription.err_nom'         => 'Last name is required (50 characters max).',
+    'inscription.err_email'       => 'This email address is not valid.',
+    'inscription.err_email_pris'  => 'An account already exists with this address.',
+    'inscription.err_mdp'         => 'Password must be at least 8 characters long.',
+    'inscription.err_confirmation' => 'The two passwords do not match.',
+
+    // Connexion
+    'connexion.titre_page'   => 'Log in',
+    'connexion.titre'        => 'Log in',
+    'connexion.sous_titre'   => 'To get back to your trips.',
+    'connexion.succes'       => 'Account created. You can now log in.',
+    'connexion.erreur'       => 'Incorrect email or password.',
+    'connexion.email'        => 'Email',
+    'connexion.mot_de_passe' => 'Password',
+    'connexion.bouton'       => 'Log in',
+    'connexion.pas_compte'   => "Don't have an account yet?",
+    'connexion.creer_compte' => 'Create an account',
+
+    // Mes voyages
+    'mes_voyages.titre_page' => 'My trips',
+    'mes_voyages.titre'      => 'My trips',
+    'mes_voyages.connecte'   => 'Logged in as {prenom}.',
+
+    // Valeurs des ENUM de la base (la valeur stockée sert de clé)
+    'type_destination.plage'    => 'beach',
+    'type_destination.ville'    => 'city',
+    'type_destination.montagne' => 'mountains',
+    'type_destination.nature'   => 'nature',
+
+    'type_voyage.amis'      => 'Holidays with friends',
+    'type_voyage.evjf_evg'  => 'Bachelor / bachelorette parties',
+    'type_voyage.etudes'    => 'Study trips',
+    'type_voyage.seminaire' => 'Company retreats',
+    'type_voyage.autre'     => 'Club and association outings',
+
+    'statut.en_preparation' => 'In progress',
+    'statut.vol_choisi'     => 'Flight chosen',
+    'statut.hotel_choisi'   => 'Hotel chosen',
+    'statut.pret'           => 'Ready',
+];

@@ -6,14 +6,14 @@ Auth::exigerConnexion();
 
 $utilisateur = Auth::utilisateur();
 
-$titrePage = 'Mes voyages';
+$titrePage = Lang::t('mes_voyages.titre_page');
 $cssPage   = 'formulaires';
 require __DIR__ . '/../src/partials/header.php';
 ?>
 
 <main class="page">
-    <h1>Mes voyages</h1>
-    <p>Connecté en tant que <?= htmlspecialchars($utilisateur['prenom']) ?>. Cette page sera construite à la prochaine étape.</p>
+    <h1><?= htmlspecialchars(Lang::t('mes_voyages.titre')) ?></h1>
+    <p><?= htmlspecialchars(Lang::t('mes_voyages.connecte', ['prenom' => $utilisateur['prenom']])) ?></p>
 </main>
 
 <?php require __DIR__ . '/../src/partials/footer.php'; ?>

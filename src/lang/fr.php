@@ -1,0 +1,89 @@
+<?php
+// Textes de l'interface en français.
+// Les clés doivent être les mêmes que dans en.php.
+
+return [
+    // Navigation (header / footer)
+    'nav.connexion'   => 'Connexion',
+    'nav.inscription' => 'Inscription',
+    'nav.mes_voyages' => 'Mes voyages',
+    'nav.deconnexion' => 'Déconnexion',
+    'nav.bonjour'     => 'Bonjour {prenom}',
+    'footer.texte'    => 'Projet ProgServ2 – HEIG-VD',
+
+    // Accueil
+    'accueil.titre_page'        => 'Accueil',
+    'accueil.titre'             => 'Organisez votre voyage de groupe',
+    'accueil.planifier'         => 'Planifier un voyage',
+    'accueil.se_connecter'      => 'Se connecter',
+    'accueil.passagers'         => 'Passagers',
+    'accueil.passagers_valeur'  => '2 à 30',
+    'accueil.depart'            => 'Départ',
+    'accueil.depart_valeur'     => 'Genève Aéroport',
+    'accueil.destination'       => 'Destination',
+    'accueil.destination_valeur' => 'À vous de choisir',
+    'accueil.nb_destinations'   => 'destinations',
+    'accueil.nb_vols'           => 'vols',
+    'accueil.nb_hotels'         => 'hôtels',
+    'accueil.etape1_titre'      => 'Vos critères',
+    'accueil.etape1_texte'      => 'Nombre de personnes, budget et dates.',
+    'accueil.etape2_titre'      => 'Une proposition',
+    'accueil.etape2_texte'      => 'Un vol et un hôtel pour tout le groupe.',
+    'accueil.etape3_titre'      => 'Le départ',
+    'accueil.etape3_texte'      => 'Une liste de tâches à cocher avant de partir.',
+    'accueil.evenement'         => "Quel que soit l'événement",
+
+    // Inscription
+    'inscription.titre_page'      => 'Inscription',
+    'inscription.titre'           => 'Créer un compte',
+    'inscription.sous_titre'      => 'Pour organiser et retrouver vos voyages.',
+    'inscription.prenom'          => 'Prénom',
+    'inscription.nom'             => 'Nom',
+    'inscription.email'           => 'E-mail',
+    'inscription.mot_de_passe'    => 'Mot de passe',
+    'inscription.aide_mdp'        => '8 caractères minimum.',
+    'inscription.confirmation'    => 'Confirmer le mot de passe',
+    'inscription.bouton'          => 'Créer mon compte',
+    'inscription.deja_compte'     => 'Déjà un compte ?',
+    'inscription.se_connecter'    => 'Se connecter',
+    'inscription.err_prenom'      => 'Le prénom est obligatoire (50 caractères maximum).',
+    'inscription.err_nom'         => 'Le nom est obligatoire (50 caractères maximum).',
+    'inscription.err_email'       => "L'adresse e-mail n'est pas valide.",
+    'inscription.err_email_pris'  => 'Un compte existe déjà avec cette adresse.',
+    'inscription.err_mdp'         => 'Le mot de passe doit contenir au moins 8 caractères.',
+    'inscription.err_confirmation' => 'Les deux mots de passe ne correspondent pas.',
+
+    // Connexion
+    'connexion.titre_page'   => 'Connexion',
+    'connexion.titre'        => 'Se connecter',
+    'connexion.sous_titre'   => 'Pour retrouver vos voyages.',
+    'connexion.succes'       => 'Compte créé. Vous pouvez maintenant vous connecter.',
+    'connexion.erreur'       => 'E-mail ou mot de passe incorrect.',
+    'connexion.email'        => 'E-mail',
+    'connexion.mot_de_passe' => 'Mot de passe',
+    'connexion.bouton'       => 'Se connecter',
+    'connexion.pas_compte'   => 'Pas encore de compte ?',
+    'connexion.creer_compte' => 'Créer un compte',
+
+    // Mes voyages
+    'mes_voyages.titre_page' => 'Mes voyages',
+    'mes_voyages.titre'      => 'Mes voyages',
+    'mes_voyages.connecte'   => 'Connecté en tant que {prenom}.',
+
+    // Valeurs des ENUM de la base (la valeur stockée sert de clé)
+    'type_destination.plage'    => 'plage',
+    'type_destination.ville'    => 'ville',
+    'type_destination.montagne' => 'montagne',
+    'type_destination.nature'   => 'nature',
+
+    'type_voyage.amis'      => 'Vacances entre ami·es',
+    'type_voyage.evjf_evg'  => 'EVJF / EVG',
+    'type_voyage.etudes'    => "Voyages d'études",
+    'type_voyage.seminaire' => "Séminaires d'entreprise",
+    'type_voyage.autre'     => "Sorties d'associations",
+
+    'statut.en_preparation' => 'En préparation',
+    'statut.vol_choisi'     => 'Vol choisi',
+    'statut.hotel_choisi'   => 'Hôtel choisi',
+    'statut.pret'           => 'Prêt',
+];
