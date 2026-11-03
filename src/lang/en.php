@@ -112,4 +112,15 @@ return [
     'voyage.err_date_ordre'      => 'Return date must be after the departure date.',
     'mes_voyages.cree'           => 'Trip created.',
     'mes_voyages.nouveau'        => 'New trip',
+
+    // Mes voyages (liste)
+    'mes_voyages.aucun'          => "You don't have any trips yet.",
+    'mes_voyages.personnes'      => '{nombre} people',
+    'mes_voyages.budget'         => '{montant} CHF / person',
+    'mes_voyages.destination_a_choisir' => 'Destination to be chosen',
+    'mes_voyages.hotel'          => 'Hotel: {nom}',
+    'mes_voyages.voir'           => 'View',
+    'mes_voyages.propositions'   => 'Choose flight and hotel',
+    'mes_voyages.modifier'       => 'Edit',
+    'mes_voyages.supprimer'      => 'Delete',
 ];

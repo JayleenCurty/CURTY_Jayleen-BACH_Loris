@@ -1,0 +1,135 @@
+/* Page Mes voyages : chaque voyage est un petit billet, comme sur l'accueil */
+
+.entete-liste {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin: 2rem 0 1.5rem;
+}
+
+.entete-liste h1 {
+	font-size: 2rem;
+}
+
+.succes {
+	padding: 0.7rem 0.9rem;
+	border-radius: 8px;
+	margin-bottom: 1.25rem;
+	background: #e3f4ea;
+	color: #1e6b3a;
+}
+
+.vide {
+	color: var(--gris);
+	padding: 3rem 0;
+	text-align: center;
+}
+
+.liste-voyages {
+	display: grid;
+	gap: 1rem;
+}
+
+/* Un voyage : partie principale à gauche, talon à droite */
+.voyage {
+	display: grid;
+	grid-template-columns: 1fr 260px;
+	background: var(--carte);
+	border: 1.5px solid var(--texte);
+	border-radius: 14px;
+}
+
+.voyage-principal {
+	padding: 1.5rem 1.75rem;
+	border-right: 2px dashed var(--trait);
+}
+
+.voyage-trajet {
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-weight: 700;
+	font-size: 1.1rem;
+}
+
+.voyage-trajet span {
+	color: var(--accent);
+	margin: 0 0.3rem;
+}
+
+.voyage h2 {
+	font-size: 1.35rem;
+	margin: 0.3rem 0 0.5rem;
+}
+
+.voyage-infos {
+	color: var(--gris);
+	font-size: 0.9rem;
+}
+
+.voyage-talon {
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 1rem;
+}
+
+/* Pastille de statut, une couleur par étape */
+.statut {
+	font-family: ui-monospace, Menlo, Consolas, monospace;
+	font-size: 0.8rem;
+	padding: 0.25rem 0.6rem;
+	border-radius: 999px;
+	border: 1px solid currentColor;
+}
+
+.statut-en_preparation {
+	color: var(--gris);
+}
+
+.statut-vol_choisi,
+.statut-hotel_choisi {
+	color: var(--accent);
+}
+
+.statut-pret {
+	color: #1e6b3a;
+}
+
+.voyage-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.4rem 1rem;
+	font-size: 0.9rem;
+}
+
+.voyage-actions .btn {
+	padding: 0.45rem 1rem;
+	font-size: 0.9rem;
+}
+
+.voyage-actions a:not(.btn) {
+	text-decoration: underline;
+}
+
+.voyage-actions a:not(.btn):hover {
+	color: var(--accent);
+}
+
+.lien-danger {
+	color: #b42318;
+}
+
+@media (max-width: 700px) {
+	.voyage {
+		grid-template-columns: 1fr;
+	}
+
+	.voyage-principal {
+		border-right: none;
+		border-bottom: 2px dashed var(--trait);
+	}
+}

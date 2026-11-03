@@ -76,4 +76,14 @@ class Lang {
 
         return (string) ($ligne[$colonne] ?? '');
     }
+
+    // Date de la base (AAAA-MM-JJ) affichée au format de la langue :
+    // 14.06.2027 en français, 14 Jun 2027 en anglais
+    public static function date(string $dateBase): string {
+        self::initialiser();
+
+        $date = new DateTime($dateBase);
+
+        return self::$langue === 'en' ? $date->format('j M Y') : $date->format('d.m.Y');
+    }
 }
