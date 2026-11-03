@@ -123,4 +123,13 @@ return [
     'mes_voyages.propositions'   => 'Choisir vol et hôtel',
     'mes_voyages.modifier'       => 'Modifier',
     'mes_voyages.supprimer'      => 'Supprimer',
+
+    // Supprimer un voyage
+    'supprimer.titre_page'  => 'Supprimer un voyage',
+    'supprimer.titre'       => 'Supprimer ce voyage ?',
+    'supprimer.texte'       => '« {nom} » et sa liste de tâches seront supprimés définitivement.',
+    'supprimer.confirmer'   => 'Oui, supprimer',
+    'supprimer.annuler'     => 'Annuler',
+    'supprimer.err_jeton'   => 'La demande a expiré. Merci de réessayer.',
+    'mes_voyages.supprime'  => 'Voyage supprimé.',
 ];

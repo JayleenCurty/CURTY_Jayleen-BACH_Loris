@@ -62,4 +62,45 @@ class VoyageManager {
 
         return $requete->fetchAll();
     }
+
+    // Un voyage, seulement s'il appartient à cet utilisateur (sinon null).
+    // On filtre sur les deux id : changer le numéro dans l'URL ne donne pas accès au voyage d'un autre.
+    public function trouverPourUtilisateur(int $idVoyage, int $idUtilisateur): ?array {
+        $requete = $this->pdo->prepare(
+            'SELECT * FROM voyage WHERE id = :id AND id_utilisateur = :id_utilisateur'
+        );
+        $requete->execute(['id' => $idVoyage, 'id_utilisateur' => $idUtilisateur]);
+        $voyage = $requete->fetch();
+
+        return $voyage === false ? null : $voyage;
+    }
+
+    // Supprime un voyage de cet utilisateur et ses tâches.
+    // Les tâches d'abord : la clé étrangère taches.id_voyage interdit de supprimer
+    // un voyage qui a encore des tâches.
+    // La transaction garantit que tout est supprimé, ou rien si une erreur survient.
+    public function supprimer(int $idVoyage, int $idUtilisateur): bool {
+        if ($this->trouverPourUtilisateur($idVoyage, $idUtilisateur) === null) {
+            return false;
+        }
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $requete = $this->pdo->prepare('DELETE FROM taches WHERE id_voyage = :id');
+            $requete->execute(['id' => $idVoyage]);
+
+            $requete = $this->pdo->prepare(
+                'DELETE FROM voyage WHERE id = :id AND id_utilisateur = :id_utilisateur'
+            );
+            $requete->execute(['id' => $idVoyage, 'id_utilisateur' => $idUtilisateur]);
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
+
+        return true;
+    }
 }
