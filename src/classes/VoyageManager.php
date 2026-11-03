@@ -41,4 +41,25 @@ class VoyageManager {
 
         return (int) $this->pdo->lastInsertId();
     }
+
+    // Tous les voyages d'un utilisateur, du départ le plus proche au plus lointain.
+    // LEFT JOIN : on garde les voyages dont le vol ou l'hôtel n'est pas encore choisi
+    // (id_vol / id_hotel à NULL). La destination est connue à travers le vol choisi.
+    public function listerPourUtilisateur(int $idUtilisateur): array {
+        $requete = $this->pdo->prepare(
+            'SELECT v.id, v.nom, v.type_voyage, v.nbr_personne, v.budget_personne,
+                    v.date_aller, v.date_retour, v.statut, v.type_destination,
+                    d.ville, d.ville_en, d.pays, d.pays_en,
+                    h.nom AS hotel_nom
+             FROM voyage v
+             LEFT JOIN vol vo        ON vo.id = v.id_vol
+             LEFT JOIN destination d ON d.id = vo.id_destination
+             LEFT JOIN hotel h       ON h.id = v.id_hotel
+             WHERE v.id_utilisateur = :id_utilisateur
+             ORDER BY v.date_aller'
+        );
+        $requete->execute(['id_utilisateur' => $idUtilisateur]);
+
+        return $requete->fetchAll();
+    }
 }
