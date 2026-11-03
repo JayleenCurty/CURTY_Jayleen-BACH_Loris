@@ -1,5 +1,5 @@
 <footer class="site-footer">
-    Projet ProgServ2 – HEIG-VD
+    <?= htmlspecialchars(Lang::t('footer.texte')) ?>
 </footer>
 </body>
 

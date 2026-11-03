@@ -29,25 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 2. Valider côté serveur (on ne fait jamais confiance au navigateur)
     if ($prenom === '' || mb_strlen($prenom) > 50) {
-        $erreurs['prenom'] = 'Le prénom est obligatoire (50 caractères maximum).';
+        $erreurs['prenom'] = Lang::t('inscription.err_prenom');
     }
 
     if ($nom === '' || mb_strlen($nom) > 50) {
-        $erreurs['nom'] = 'Le nom est obligatoire (50 caractères maximum).';
+        $erreurs['nom'] = Lang::t('inscription.err_nom');
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $erreurs['email'] = "L'adresse e-mail n'est pas valide.";
+        $erreurs['email'] = Lang::t('inscription.err_email');
     } elseif ($utilisateurManager->emailExiste($email)) {
-        $erreurs['email'] = 'Un compte existe déjà avec cette adresse.';
+        $erreurs['email'] = Lang::t('inscription.err_email_pris');
     }
 
     if (mb_strlen($motDePasse) < 8) {
-        $erreurs['mot_de_passe'] = 'Le mot de passe doit contenir au moins 8 caractères.';
+        $erreurs['mot_de_passe'] = Lang::t('inscription.err_mdp');
     }
 
     if ($motDePasse !== $confirmation) {
-        $erreurs['confirmation'] = 'Les deux mots de passe ne correspondent pas.';
+        $erreurs['confirmation'] = Lang::t('inscription.err_confirmation');
     }
 
     // 3. Tout est valide : on crée le compte et on redirige vers la connexion
@@ -59,20 +59,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$titrePage = 'Inscription';
+$titrePage = Lang::t('inscription.titre_page');
 $cssPage   = 'formulaires';
 require __DIR__ . '/../src/partials/header.php';
 ?>
 
 <main class="page">
     <section class="carte-formulaire">
-        <h1>Créer un compte</h1>
-        <p class="sous-titre">Pour organiser et retrouver vos voyages.</p>
+        <h1><?= htmlspecialchars(Lang::t('inscription.titre')) ?></h1>
+        <p class="sous-titre"><?= htmlspecialchars(Lang::t('inscription.sous_titre')) ?></p>
 
         <form method="post" action="inscription.php">
             <div class="ligne">
                 <div class="champ">
-                    <label for="prenom">Prénom</label>
+                    <label for="prenom"><?= htmlspecialchars(Lang::t('inscription.prenom')) ?></label>
                     <input type="text" id="prenom" name="prenom" maxlength="50" required
                         value="<?= htmlspecialchars($prenom) ?>" />
                     <?php if (isset($erreurs['prenom'])): ?>
@@ -81,7 +81,7 @@ require __DIR__ . '/../src/partials/header.php';
                 </div>
 
                 <div class="champ">
-                    <label for="nom">Nom</label>
+                    <label for="nom"><?= htmlspecialchars(Lang::t('inscription.nom')) ?></label>
                     <input type="text" id="nom" name="nom" maxlength="50" required
                         value="<?= htmlspecialchars($nom) ?>" />
                     <?php if (isset($erreurs['nom'])): ?>
@@ -91,7 +91,7 @@ require __DIR__ . '/../src/partials/header.php';
             </div>
 
             <div class="champ">
-                <label for="email">E-mail</label>
+                <label for="email"><?= htmlspecialchars(Lang::t('inscription.email')) ?></label>
                 <input type="email" id="email" name="email" required
                     value="<?= htmlspecialchars($email) ?>" />
                 <?php if (isset($erreurs['email'])): ?>
@@ -100,27 +100,27 @@ require __DIR__ . '/../src/partials/header.php';
             </div>
 
             <div class="champ">
-                <label for="mot_de_passe">Mot de passe</label>
+                <label for="mot_de_passe"><?= htmlspecialchars(Lang::t('inscription.mot_de_passe')) ?></label>
                 <input type="password" id="mot_de_passe" name="mot_de_passe" minlength="8" required />
-                <p class="aide">8 caractères minimum.</p>
+                <p class="aide"><?= htmlspecialchars(Lang::t('inscription.aide_mdp')) ?></p>
                 <?php if (isset($erreurs['mot_de_passe'])): ?>
                     <p class="erreur"><?= htmlspecialchars($erreurs['mot_de_passe']) ?></p>
                 <?php endif; ?>
             </div>
 
             <div class="champ">
-                <label for="confirmation">Confirmer le mot de passe</label>
+                <label for="confirmation"><?= htmlspecialchars(Lang::t('inscription.confirmation')) ?></label>
                 <input type="password" id="confirmation" name="confirmation" minlength="8" required />
                 <?php if (isset($erreurs['confirmation'])): ?>
                     <p class="erreur"><?= htmlspecialchars($erreurs['confirmation']) ?></p>
                 <?php endif; ?>
             </div>
 
-            <button type="submit" class="btn">Créer mon compte</button>
+            <button type="submit" class="btn"><?= htmlspecialchars(Lang::t('inscription.bouton')) ?></button>
         </form>
 
         <p class="bas-formulaire">
-            Déjà un compte ? <a href="connexion.php">Se connecter</a>
+            <?= htmlspecialchars(Lang::t('inscription.deja_compte')) ?> <a href="connexion.php"><?= htmlspecialchars(Lang::t('inscription.se_connecter')) ?></a>
         </p>
     </section>
 </main>

@@ -14,9 +14,10 @@ class DestinationManager {
     }
 
     // Les premières destinations par ordre alphabétique (pour l'accueil)
+    // On récupère les colonnes FR et EN : Lang::champ() choisira à l'affichage
     public function getQuelquesDestinations(int $nombre): array {
         $requete = $this->pdo->prepare(
-            'SELECT ville, pays, type_destination FROM destination ORDER BY ville LIMIT :nombre'
+            'SELECT ville, ville_en, pays, pays_en, type_destination FROM destination ORDER BY ville LIMIT :nombre'
         );
         // LIMIT doit recevoir un entier, d'où PDO::PARAM_INT
         $requete->bindValue('nombre', $nombre, PDO::PARAM_INT);
