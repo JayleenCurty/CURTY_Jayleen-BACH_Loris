@@ -132,4 +132,13 @@ return [
     'supprimer.annuler'     => 'Annuler',
     'supprimer.err_jeton'   => 'La demande a expiré. Merci de réessayer.',
     'mes_voyages.supprime'  => 'Voyage supprimé.',
+
+    // Modifier un voyage
+    'modifier.titre_page'   => 'Modifier un voyage',
+    'modifier.titre'        => 'Modifier le voyage',
+    'modifier.sous_titre'   => 'Si vous changez les dates, le nombre de personnes, le budget ou le type de destination, le vol et l\'hôtel déjà choisis seront annulés.',
+    'modifier.bouton'       => 'Enregistrer les modifications',
+    'modifier.annuler'      => 'Annuler',
+    'mes_voyages.modifie'   => 'Voyage modifié.',
+    'mes_voyages.modifie_choix_annule' => 'Voyage modifié. Les critères ont changé : choisissez à nouveau le vol et l\'hôtel.',
 ];
