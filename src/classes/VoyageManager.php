@@ -103,4 +103,55 @@ class VoyageManager {
 
         return true;
     }
+
+    // Modifie les critères d'un voyage de cet utilisateur.
+    // Si un critère qui compte pour le vol ou l'hôtel change (dates, nombre de personnes,
+    // budget, type de destination), le choix déjà fait n'est peut-être plus valable :
+    // on l'annule et le voyage repasse "en préparation".
+    // Retourne true si le choix du vol / de l'hôtel a été annulé.
+    public function modifier(int $idVoyage, int $idUtilisateur, array $donnees): bool {
+        $ancien = $this->trouverPourUtilisateur($idVoyage, $idUtilisateur);
+        if ($ancien === null) {
+            return false;
+        }
+
+        $criteresModifies =
+            $ancien['date_aller'] !== $donnees['date_aller']
+            || $ancien['date_retour'] !== $donnees['date_retour']
+            || (int) $ancien['nbr_personne'] !== $donnees['nbr_personne']
+            || (float) $ancien['budget_personne'] !== $donnees['budget_personne']
+            || $ancien['type_destination'] !== $donnees['type_destination'];
+
+        $choixAnnule = $criteresModifies && ($ancien['id_vol'] !== null || $ancien['id_hotel'] !== null);
+
+        $sql = 'UPDATE voyage SET
+                    nom = :nom,
+                    type_voyage = :type_voyage,
+                    nbr_personne = :nbr_personne,
+                    budget_personne = :budget_personne,
+                    date_aller = :date_aller,
+                    date_retour = :date_retour,
+                    type_destination = :type_destination';
+
+        if ($choixAnnule) {
+            $sql .= ", id_vol = NULL, id_hotel = NULL, statut = 'en_preparation'";
+        }
+
+        $sql .= ' WHERE id = :id AND id_utilisateur = :id_utilisateur';
+
+        $requete = $this->pdo->prepare($sql);
+        $requete->execute([
+            'nom'              => $donnees['nom'],
+            'type_voyage'      => $donnees['type_voyage'],
+            'nbr_personne'     => $donnees['nbr_personne'],
+            'budget_personne'  => $donnees['budget_personne'],
+            'date_aller'       => $donnees['date_aller'],
+            'date_retour'      => $donnees['date_retour'],
+            'type_destination' => $donnees['type_destination'],
+            'id'               => $idVoyage,
+            'id_utilisateur'   => $idUtilisateur,
+        ]);
+
+        return $choixAnnule;
+    }
 }

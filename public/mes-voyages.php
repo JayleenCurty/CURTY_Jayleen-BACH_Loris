@@ -15,6 +15,7 @@ $voyages = $voyageManager->listerPourUtilisateur($utilisateur['id']);
 // Messages après une action (voyage-creer.php redirige vers ?cree=ok, etc.)
 $voyageCree = ($_GET['cree'] ?? '') === 'ok';
 $voyageSupprime = ($_GET['supprime'] ?? '') === 'ok';
+$voyageModifie  = $_GET['modifie'] ?? '';   // 'ok' ou 'choix_annule'
 
 $titrePage = Lang::t('mes_voyages.titre_page');
 $cssPage   = 'mes-voyages';
@@ -33,6 +34,12 @@ require __DIR__ . '/../src/partials/header.php';
 
     <?php if ($voyageSupprime): ?>
         <p class="succes"><?= htmlspecialchars(Lang::t('mes_voyages.supprime')) ?></p>
+    <?php endif; ?>
+
+    <?php if ($voyageModifie === 'ok'): ?>
+        <p class="succes"><?= htmlspecialchars(Lang::t('mes_voyages.modifie')) ?></p>
+    <?php elseif ($voyageModifie === 'choix_annule'): ?>
+        <p class="succes"><?= htmlspecialchars(Lang::t('mes_voyages.modifie_choix_annule')) ?></p>
     <?php endif; ?>
 
     <?php if (count($voyages) === 0): ?>

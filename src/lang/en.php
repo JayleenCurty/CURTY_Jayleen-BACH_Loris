@@ -132,4 +132,13 @@ return [
     'supprimer.annuler'     => 'Cancel',
     'supprimer.err_jeton'   => 'The request has expired. Please try again.',
     'mes_voyages.supprime'  => 'Trip deleted.',
+
+    // Modifier un voyage
+    'modifier.titre_page'   => 'Edit a trip',
+    'modifier.titre'        => 'Edit trip',
+    'modifier.sous_titre'   => 'If you change the dates, group size, budget or destination type, the flight and hotel already chosen will be cancelled.',
+    'modifier.bouton'       => 'Save changes',
+    'modifier.annuler'      => 'Cancel',
+    'mes_voyages.modifie'   => 'Trip updated.',
+    'mes_voyages.modifie_choix_annule' => 'Trip updated. The criteria changed: please choose the flight and hotel again.',
 ];
