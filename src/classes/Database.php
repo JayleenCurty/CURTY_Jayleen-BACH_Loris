@@ -1,15 +1,16 @@
 <?php
 // Connexion à la base de données à partir du fichier de configuration.
-// Remplace l'ancien src/database.php.
 
 class Database {
+    const DATABASE_CONFIGURATION_FILE = __DIR__ . '/../../config/database.ini';
+
     private PDO $pdo;
 
     public function __construct() {
-        $config = parse_ini_file(__DIR__ . '/../../config/database.ini');
+        $config = parse_ini_file(self::DATABASE_CONFIGURATION_FILE);
 
         if ($config === false) {
-            die('Fichier de configuration introuvable : copiez config/database.example.ini en config/database.ini');
+            throw new Exception('Fichier de configuration introuvable : copiez config/database.example.ini en config/database.ini');
         }
 
         $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset=utf8mb4";
@@ -20,7 +21,6 @@ class Database {
         ]);
     }
 
-    // Donne la connexion PDO aux classes Manager
     public function getPdo(): PDO {
         return $this->pdo;
     }

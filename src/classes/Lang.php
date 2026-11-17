@@ -2,7 +2,7 @@
 // Gère la langue du site (i18n).
 // - La langue se choisit avec ?lang=fr ou ?lang=en dans l'URL, puis est gardée en session.
 // - Les textes de l'interface sont dans src/lang/fr.php et src/lang/en.php.
-// - Les données de la base traduites (ville_en, pays_en...) sont choisies avec Lang::champ().
+// - Les données de la base traduites (ville_en, pays_en...) sont choisies avec Lang::choisir().
 
 class Lang {
     // Langues disponibles : la première est celle par défaut
@@ -61,28 +61,28 @@ class Lang {
         return $texte;
     }
 
-    // Choisit la bonne colonne d'une ligne de la base selon la langue.
-    // Lang::champ($destination, 'ville') retourne 'ville_en' en anglais, 'ville' en français.
-    // Si la traduction est vide, on garde la version française.
-    public static function champ(array $ligne, string $colonne): string {
+    // Choisit entre la version française et la version anglaise d'une donnée de la base.
+    // Lang::choisir($destination->getVille(), $destination->getVilleEn())
+    // retourne la ville en anglais si le site est en anglais et que la traduction existe.
+    public static function choisir(string $francais, ?string $anglais): string {
         self::initialiser();
 
-        if (self::$langue !== 'fr') {
-            $traduction = $ligne[$colonne . '_' . self::$langue] ?? '';
-            if ($traduction !== '') {
-                return $traduction;
-            }
+        if (self::$langue === 'en' && $anglais !== null && $anglais !== '') {
+            return $anglais;
         }
 
-        return (string) ($ligne[$colonne] ?? '');
+        return $francais;
     }
 
-    // Date de la base (AAAA-MM-JJ) affichée au format de la langue :
+    // Date affichée au format de la langue :
     // 14.06.2027 en français, 14 Jun 2027 en anglais
-    public static function date(string $dateBase): string {
+    // Accepte un objet DateTime (venant d'une entité) ou une date texte AAAA-MM-JJ.
+    public static function date(DateTimeInterface|string $date): string {
         self::initialiser();
 
-        $date = new DateTime($dateBase);
+        if (is_string($date)) {
+            $date = new DateTime($date);
+        }
 
         return self::$langue === 'en' ? $date->format('j M Y') : $date->format('d.m.Y');
     }

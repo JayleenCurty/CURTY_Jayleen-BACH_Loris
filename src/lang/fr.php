@@ -130,7 +130,6 @@ return [
     'supprimer.texte'       => '« {nom} » et sa liste de tâches seront supprimés définitivement.',
     'supprimer.confirmer'   => 'Oui, supprimer',
     'supprimer.annuler'     => 'Annuler',
-    'supprimer.err_jeton'   => 'La demande a expiré. Merci de réessayer.',
     'mes_voyages.supprime'  => 'Voyage supprimé.',
 
     // Modifier un voyage

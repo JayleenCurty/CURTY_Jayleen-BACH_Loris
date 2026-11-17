@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . '/../src/autoload.php';
+require_once __DIR__ . '/../src/utils/autoloader.php';
+
+use Utilisateurs\UtilisateursManager;
 
 // Déjà connecté : rien à faire ici
 if (Auth::estConnecte()) {
@@ -7,8 +9,7 @@ if (Auth::estConnecte()) {
     exit;
 }
 
-$database           = new Database();
-$utilisateurManager = new UtilisateurManager($database->getPdo());
+$utilisateursManager = new UtilisateursManager();
 
 $email  = '';
 $erreur = '';
@@ -20,10 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email      = trim($_POST['email'] ?? '');
     $motDePasse = $_POST['mot_de_passe'] ?? '';
 
-    $utilisateur = $utilisateurManager->trouverParEmail($email);
+    // Objet Utilisateur, ou null si aucun compte n'a cet e-mail
+    $utilisateur = $utilisateursManager->getUtilisateurParEmail($email);
 
-    // password_verify compare le mot de passe saisi avec le hash stocké en base
-    if ($utilisateur !== null && password_verify($motDePasse, $utilisateur['mot_de_passe'])) {
+    // verifierMotDePasse() compare le mot de passe saisi avec le hash stocké en base
+    if ($utilisateur !== null && $utilisateur->verifierMotDePasse($motDePasse)) {
         Auth::connecter($utilisateur);
 
         header('Location: mes-voyages.php');

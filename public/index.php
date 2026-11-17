@@ -1,19 +1,22 @@
 <?php
-require_once __DIR__ . '/../src/autoload.php';
+require_once __DIR__ . '/../src/utils/autoloader.php';
 
-// Connexion à la base et création des objets dont la page a besoin
-$database           = new Database();
-$destinationManager = new DestinationManager($database->getPdo());
-$volManager         = new VolManager($database->getPdo());
-$hotelManager       = new HotelManager($database->getPdo());
+use Destinations\DestinationsManager;
+use Hotels\HotelsManager;
+use Vols\VolsManager;
+
+// Création des Managers dont la page a besoin
+$destinationsManager = new DestinationsManager();
+$volsManager         = new VolsManager();
+$hotelsManager       = new HotelsManager();
 
 // Chiffres affichés sous le billet
-$nbDestinations = $destinationManager->compter();
-$nbVols         = $volManager->compter();
-$nbHotels       = $hotelManager->compter();
+$nbDestinations = $destinationsManager->compter();
+$nbVols         = $volsManager->compter();
+$nbHotels       = $hotelsManager->compter();
 
-// Quatre destinations pour la section du bas
-$destinations = $destinationManager->getQuelquesDestinations(4);
+// Quatre destinations pour la section du bas (tableau d'objets Destination)
+$destinations = $destinationsManager->getDestinations(4);
 
 // Types de voyage : valeurs de l'ENUM type_voyage, traduites avec Lang::t('type_voyage.xxx')
 $typesVoyage = ['amis', 'evjf_evg', 'etudes', 'seminaire', 'autre'];
@@ -82,9 +85,9 @@ require __DIR__ . '/../src/partials/header.php';
         <div class="destinations">
             <?php foreach ($destinations as $d): ?>
                 <article class="destination">
-                    <span class="destination-type"><?= htmlspecialchars(Lang::t('type_destination.' . $d['type_destination'])) ?></span>
-                    <h3><?= htmlspecialchars(Lang::champ($d, 'ville')) ?></h3>
-                    <p><?= htmlspecialchars(Lang::champ($d, 'pays')) ?></p>
+                    <span class="destination-type"><?= htmlspecialchars(Lang::t('type_destination.' . $d->getTypeDestination())) ?></span>
+                    <h3><?= htmlspecialchars(Lang::choisir($d->getVille(), $d->getVilleEn())) ?></h3>
+                    <p><?= htmlspecialchars(Lang::choisir($d->getPays(), $d->getPaysEn())) ?></p>
                 </article>
             <?php endforeach; ?>
         </div>
