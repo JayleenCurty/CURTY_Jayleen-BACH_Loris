@@ -30,6 +30,7 @@ checklist des choses à préparer avant le départ.
 - [Configuration de la base de données](#configuration-de-la-base-de-données)
 - [Déploiement en production](#déploiement-en-production)
 - [Méthode de travail](#méthode-de-travail)
+- [Sécurité](#sécurité)
 - [Lien maquette](#maquette)
 - [Justification IA](#justification-ia)
 
@@ -89,6 +90,7 @@ grouptrip/
 │   └── 04-taches.sql              # Tâches de la checklist (table taches)
 │
 ├── 📁 public/                     # Racine web : seul dossier accessible depuis le navigateur
+│   ├── .user.ini                  # Production : erreurs PHP masquées (display_errors = Off)
 │   ├── 📁 css/
 │   │   ├── reset.css
 │   │   ├── base.css               # Couleurs, header, footer, boutons (toutes les pages)
@@ -399,6 +401,60 @@ Le projet suit le workflow GitHub étudié en cours :
 3. une **pull request** relue par l'autre membre de l'équipe avant d'être mergée
    sur `main` ;
 4. un **déploiement automatique** en production à chaque merge sur `main`.
+
+## Sécurité
+
+L'application suit les principes vus en cours (séance « Sécurité et nettoyage
+des saisies »).
+
+### Validation des saisies
+
+- **Côté client** : attributs HTML `required`, `type="email"`, `minlength`,
+  `min` / `max` sur les formulaires.
+- **Côté serveur** : chaque setter des entités vérifie sa valeur et lance une
+  `InvalidArgumentException` si elle n'est pas valide (longueur, format d'e-mail
+  avec `filter_var`, valeur dans une liste autorisée, nombre dans un intervalle,
+  dates). Les pages affichent un message d'erreur sous chaque champ.
+
+### Nettoyage des saisies
+
+- Les saisies sont nettoyées avec `trim()`.
+- Tout ce qui est affiché dans une page passe par `htmlspecialchars()`, sauf les
+  nombres convertis avec `(int)`.
+
+### Injections SQL
+
+Toutes les requêtes contenant des données sont **préparées** (`prepare` +
+`bindValue`) dans les Managers. Les seules requêtes `query()` sont des
+`COUNT(*)` sans aucune donnée venant de l'utilisateur.
+
+### Attaques XSS
+
+Les données venant de la base ou de l'utilisateur sont toujours échappées avec
+`htmlspecialchars()` avant d'être affichées.
+
+### Tests effectués (saisies de l'exercice 4 du cours)
+
+| Saisie                                                                           | Résultat                                            |
+| -------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `<script>alert("I <3 JavaScript")</script>` dans le prénom et le nom d'un voyage | Affiché comme du texte, le script ne s'exécute pas  |
+| `'); DROP TABLE voyage; --` dans le nom d'un voyage                              | Enregistré comme du texte, les tables sont intactes |
+| E-mail `' OR '1'='1` à la connexion                                              | Connexion refusée                                   |
+| `type_voyage=pirate` envoyé à la main                                            | Refusé par la validation                            |
+
+### Autres protections
+
+- Mots de passe hachés avec `password_hash()` et vérifiés avec
+  `password_verify()`.
+- Chaque requête sur un voyage vérifie qu'il appartient à la personne connectée
+  (`id_utilisateur` venant de la session, jamais du formulaire).
+- La suppression passe par une page de confirmation, puis un formulaire POST
+  (jamais par un simple lien).
+- Les erreurs PHP ne sont pas affichées en production (`public/.user.ini` :
+  `display_errors = Off`), pour ne pas révéler de chemins ni de noms de tables.
+  Vérifié avec une page de test sur Infomaniak.
+- Les identifiants de la base sont dans `config/database.ini`, hors de `public/`
+  et ignoré par Git.
 
 ## Lien maquette Figma
 
