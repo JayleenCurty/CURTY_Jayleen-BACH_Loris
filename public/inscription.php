@@ -1,5 +1,8 @@
 <?php
-require_once __DIR__ . '/../src/autoload.php';
+require_once __DIR__ . '/../src/utils/autoloader.php';
+
+use Utilisateurs\Utilisateur;
+use Utilisateurs\UtilisateursManager;
 
 // Déjà connecté : pas besoin de créer un compte
 if (Auth::estConnecte()) {
@@ -7,8 +10,7 @@ if (Auth::estConnecte()) {
     exit;
 }
 
-$database           = new Database();
-$utilisateurManager = new UtilisateurManager($database->getPdo());
+$utilisateursManager = new UtilisateursManager();
 
 // Valeurs du formulaire (vides au premier affichage)
 $prenom = '';
@@ -20,39 +22,54 @@ $erreurs = [];
 
 // Le formulaire a été envoyé
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Récupérer et nettoyer les saisies
+    // 1. Récupérer les saisies
     $prenom       = trim($_POST['prenom'] ?? '');
     $nom          = trim($_POST['nom'] ?? '');
     $email        = trim($_POST['email'] ?? '');
     $motDePasse   = $_POST['mot_de_passe'] ?? '';
     $confirmation = $_POST['confirmation'] ?? '';
 
-    // 2. Valider côté serveur (on ne fait jamais confiance au navigateur)
-    if ($prenom === '' || mb_strlen($prenom) > 50) {
-        $erreurs['prenom'] = Lang::t('inscription.err_prenom');
+    // 2. Remplir un objet Utilisateur : chaque setter vérifie sa valeur
+    //    et lance une InvalidArgumentException si elle n'est pas valide
+    $utilisateur = new Utilisateur();
+
+    try {
+        $utilisateur->setPrenom($prenom);
+    } catch (InvalidArgumentException $e) {
+        $erreurs['prenom'] = $e->getMessage();
     }
 
-    if ($nom === '' || mb_strlen($nom) > 50) {
-        $erreurs['nom'] = Lang::t('inscription.err_nom');
+    try {
+        $utilisateur->setNom($nom);
+    } catch (InvalidArgumentException $e) {
+        $erreurs['nom'] = $e->getMessage();
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $erreurs['email'] = Lang::t('inscription.err_email');
-    } elseif ($utilisateurManager->emailExiste($email)) {
-        $erreurs['email'] = Lang::t('inscription.err_email_pris');
+    try {
+        $utilisateur->setEmail($email);
+
+        // Règle qui dépend de la base : c'est le Manager qui la vérifie
+        if ($utilisateursManager->emailExiste($email)) {
+            $erreurs['email'] = Lang::t('inscription.err_email_pris');
+        }
+    } catch (InvalidArgumentException $e) {
+        $erreurs['email'] = $e->getMessage();
     }
 
-    if (mb_strlen($motDePasse) < 8) {
-        $erreurs['mot_de_passe'] = Lang::t('inscription.err_mdp');
+    try {
+        // Vérifie la longueur puis hache le mot de passe (voir Utilisateur::changerMotDePasse)
+        $utilisateur->changerMotDePasse($motDePasse);
+    } catch (InvalidArgumentException $e) {
+        $erreurs['mot_de_passe'] = $e->getMessage();
     }
 
     if ($motDePasse !== $confirmation) {
         $erreurs['confirmation'] = Lang::t('inscription.err_confirmation');
     }
 
-    // 3. Tout est valide : on crée le compte et on redirige vers la connexion
+    // 3. Tout est valide : on enregistre le compte et on redirige vers la connexion
     if (count($erreurs) === 0) {
-        $utilisateurManager->creer($prenom, $nom, $email, $motDePasse);
+        $utilisateursManager->addUtilisateur($utilisateur);
 
         header('Location: connexion.php?inscription=ok');
         exit;

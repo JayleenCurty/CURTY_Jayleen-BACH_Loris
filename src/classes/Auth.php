@@ -12,16 +12,17 @@ class Auth {
     }
 
     // Enregistre l'utilisateur dans la session après un mot de passe correct
-    public static function connecter(array $utilisateur): void {
+    public static function connecter(Utilisateurs\Utilisateur $utilisateur): void {
         self::demarrerSession();
 
         // Nouvel identifiant de session à chaque connexion (protège contre le vol de session)
         session_regenerate_id(true);
 
+        // On ne garde en session que le strict nécessaire (jamais le mot de passe)
         $_SESSION['utilisateur'] = [
-            'id'     => (int) $utilisateur['id'],
-            'prenom' => $utilisateur['prenom'],
-            'role'   => $utilisateur['role'],
+            'id'     => $utilisateur->getId(),
+            'prenom' => $utilisateur->getPrenom(),
+            'role'   => $utilisateur->getRole(),
         ];
     }
 

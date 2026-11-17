@@ -9,7 +9,7 @@ $utilisateurConnecte = Auth::utilisateur();
 $langue              = Lang::code();
 ?>
 <!doctype html>
-<html lang="<?= $langue ?>">
+<html lang="<?= htmlspecialchars($langue) ?>">
 
 <head>
     <meta charset="UTF-8" />

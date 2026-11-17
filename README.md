@@ -89,38 +89,68 @@ grouptrip/
 │   └── 04-taches.sql              # Tâches de la checklist (table taches)
 │
 ├── 📁 public/                     # Racine web : seul dossier accessible depuis le navigateur
-│   ├── 📁 css/                    # Feuilles de style
-│   ├── 📁 images/                 # Visuels du site
-│   ├── 📁 admin/                  # Pages réservées au rôle administrateur
-│   ├── .htaccess                  # Redirection HTTP → HTTPS
-│   ├── .user.ini                  # Réglages PHP de production (erreurs masquées)
-│   ├── index.php                  # Accueil
-│   ├── inscription.php
-│   ├── connexion.php
+│   ├── 📁 css/
+│   │   ├── reset.css
+│   │   ├── base.css               # Couleurs, header, footer, boutons (toutes les pages)
+│   │   ├── accueil.css
+│   │   ├── formulaires.css        # Inscription, connexion, créer / modifier / supprimer un voyage
+│   │   ├── mes-voyages.css
+│   │   ├── propositions.css
+│   │   └── recapitulatif.css
+│   ├── 📁 images/
+│   │   └── 📁 destinations/       # Une photo par destination
+│   ├── 📁 admin/                  # (à venir) Pages réservées au rôle administrateur
+│   ├── index.php                  # Accueil (public)
+│   ├── inscription.php            # Création de compte (public)
+│   ├── connexion.php              # Connexion (public)
 │   ├── deconnexion.php
-│   ├── mes-voyages.php            # Tableau de bord
+│   ├── mes-voyages.php            # Tableau de bord : liste des voyages
 │   ├── voyage-creer.php           # Étape 1 : critères du voyage
 │   ├── voyage-modifier.php
-│   ├── voyage-supprimer.php
+│   ├── voyage-supprimer.php       # Confirmation + suppression (POST)
 │   ├── propositions.php           # Étape 2 : choix du vol et de l'hôtel
 │   ├── recapitulatif.php          # Étape 3 : récapitulatif et checklist
 │   └── tache.php                  # Ajouter, cocher, supprimer une tâche
 │
 ├── 📁 src/                        # Code back-end, hors de portée du navigateur
-│   ├── database.php               # Connexion PDO à partir de config/database.ini
-│   ├── auth.php                   # Session, contrôle d'accès (connexion, rôle admin)
-│   ├── validation.php             # Validation des formulaires côté serveur
-│   ├── functions.php              # Utilitaires (échappement HTML, formatage CHF)
-│   ├── 📁 requetes/               # Requêtes préparées, un fichier par domaine
-│   │   ├── utilisateurs.php
-│   │   ├── voyages.php
-│   │   ├── propositions.php       # Recherche des combinaisons compatibles
-│   │   ├── taches.php
-│   │   └── catalogue.php
+│   ├── 📁 utils/
+│   │   └── autoloader.php         # Chargement automatique des classes (namespace = dossier)
+│   │
+│   ├── 📁 classes/
+│   │   ├── Database.php           # Connexion PDO à partir de config/database.ini
+│   │   ├── Auth.php               # Session : connexion, déconnexion, pages privées
+│   │   ├── Lang.php               # Traductions FR / EN (i18n)
+│   │   ├── ComptableInterface.php # Contrat compter() : Destinations, Vols, Hotels Managers
+│   │   │
+│   │   │   # Une entité + un Manager par table du MCD
+│   │   ├── 📁 Utilisateurs/       # Table utilisateur
+│   │   │   ├── Utilisateur.php                  # Entité : propriétés, getters / setters, validation
+│   │   │   └── UtilisateursManager.php          # Requêtes SQL de la table
+│   │   ├── 📁 Voyages/            # Table voyage
+│   │   │   ├── Voyage.php
+│   │   │   ├── VoyagesManager.php
+│   │   │   └── VoyagesManagerInterface.php  # Contrat des opérations sur les voyages
+│   │   ├── 📁 Taches/             # Table taches
+│   │   │   ├── Tache.php
+│   │   │   └── TachesManager.php
+│   │   ├── 📁 Destinations/       # Table destination
+│   │   │   ├── Destination.php
+│   │   │   └── DestinationsManager.php
+│   │   ├── 📁 Vols/               # Table vol
+│   │   │   ├── Vol.php
+│   │   │   └── VolsManager.php
+│   │   └── 📁 Hotels/             # Table hotel
+│   │       ├── Hotel.php
+│   │       └── HotelsManager.php
+│   │
+│   ├── 📁 lang/                   # Textes de l'interface
+│   │   ├── fr.php
+│   │   └── en.php
+│   │
 │   └── 📁 partials/               # Fragments HTML réutilisés
-│       ├── header.php
-│       ├── nav.php
-│       └── footer.php
+│       ├── header.php             # <head>, menu, sélecteur de langue
+│       ├── footer.php
+│       └── formulaire-voyage.php  # Formulaire commun à voyage-creer et voyage-modifier
 │
 ├── .gitignore                     # Fichiers exclus de Git (dont config/database.ini)
 ├── compose.yaml                   # Services locaux : Apache/PHP, MariaDB, phpMyAdmin, Mailpit
@@ -138,6 +168,24 @@ La séparation des dossiers suit une règle simple :
 
 `src/` et `config/` étant placés en dehors de `public/`, ils ne sont jamais
 accessibles depuis Internet.
+
+### Organisation des classes
+
+Le code suit le modèle vu en cours (exemple « Tools ») :
+
+- **Une entité par table du MCD** (`Voyage`, `Utilisateur`, `Tache`,
+  `Destination`, `Vol`, `Hotel`) : propriétés privées, getters et setters. Les
+  setters vérifient les valeurs et lancent une `InvalidArgumentException` si
+  elles ne sont pas valides.
+- **Un Manager par table** (`VoyagesManager`, ...) : contient toutes les
+  requêtes SQL (préparées) de la table et renvoie des objets entités.
+- **Deux interfaces** (contrats que les classes doivent respecter) :
+  `ComptableInterface` (méthode `compter()`), implémentée par
+  `DestinationsManager`, `VolsManager` et `HotelsManager`, et
+  `VoyagesManagerInterface`, implémentée par `VoyagesManager`.
+- **Un namespace par dossier** (`Voyages\Voyage` →
+  `src/classes/Voyages/Voyage.php`), chargé automatiquement par
+  `src/utils/autoloader.php`.
 
 ## Installation en local
 

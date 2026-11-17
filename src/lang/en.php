@@ -130,7 +130,6 @@ return [
     'supprimer.texte'       => '"{nom}" and its checklist will be permanently deleted.',
     'supprimer.confirmer'   => 'Yes, delete',
     'supprimer.annuler'     => 'Cancel',
-    'supprimer.err_jeton'   => 'The request has expired. Please try again.',
     'mes_voyages.supprime'  => 'Trip deleted.',
 
     // Modifier un voyage
