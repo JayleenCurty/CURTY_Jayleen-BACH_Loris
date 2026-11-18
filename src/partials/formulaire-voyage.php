@@ -1,4 +1,5 @@
 <?php
+
 use Voyages\Voyage;
 
 // Formulaire de voyage, utilisé par voyage-creer.php et voyage-modifier.php.
@@ -16,8 +17,7 @@ $texteBouton      = $texteBouton ?? '';
 <form method="post" action="<?= htmlspecialchars($actionFormulaire) ?>">
     <?php if (isset($idVoyage)): ?>
         <!-- En modification : quel voyage on modifie -->
-        <input type="hidden" name="voyage" value="<?= (int) $idVoyage ?>" />
-    <?php endif; ?>
+        <input type="hidden" name="voyage" value="<?= htmlspecialchars((string) (int) $idVoyage) ?>" /> <?php endif; ?>
 
     <div class="champ">
         <label for="nom"><?= htmlspecialchars(Lang::t('voyage.nom')) ?></label>
@@ -65,8 +65,7 @@ $texteBouton      = $texteBouton ?? '';
         <div class="champ">
             <label for="nbr_personne"><?= htmlspecialchars(Lang::t('voyage.personnes')) ?></label>
             <input type="number" id="nbr_personne" name="nbr_personne" required
-                min="<?= Voyage::PERSONNES_MIN ?>" max="<?= Voyage::PERSONNES_MAX ?>" step="1"
-                value="<?= htmlspecialchars(($saisie['nbr_personne'] ?? '')) ?>" />
+                min="<?= htmlspecialchars((string) Voyage::PERSONNES_MIN) ?>" max="<?= htmlspecialchars((string) Voyage::PERSONNES_MAX) ?>" step="1" value="<?= htmlspecialchars(($saisie['nbr_personne'] ?? '')) ?>" />
             <?php if (isset($erreurs['nbr_personne'])): ?>
                 <p class="erreur"><?= htmlspecialchars($erreurs['nbr_personne']) ?></p>
             <?php endif; ?>
@@ -87,7 +86,7 @@ $texteBouton      = $texteBouton ?? '';
     <div class="ligne">
         <div class="champ">
             <label for="date_aller"><?= htmlspecialchars(Lang::t('voyage.date_aller')) ?></label>
-            <input type="date" id="date_aller" name="date_aller" required min="<?= date('Y-m-d') ?>"
+            <input type="date" id="date_aller" name="date_aller" required min="<?= htmlspecialchars(date('Y-m-d')) ?>"
                 value="<?= htmlspecialchars(($saisie['date_aller'] ?? '')) ?>" />
             <?php if (isset($erreurs['date_aller'])): ?>
                 <p class="erreur"><?= htmlspecialchars($erreurs['date_aller']) ?></p>
@@ -96,7 +95,7 @@ $texteBouton      = $texteBouton ?? '';
 
         <div class="champ">
             <label for="date_retour"><?= htmlspecialchars(Lang::t('voyage.date_retour')) ?></label>
-            <input type="date" id="date_retour" name="date_retour" required min="<?= date('Y-m-d') ?>"
+            <input type="date" id="date_retour" name="date_retour" required min="<?= htmlspecialchars(date('Y-m-d')) ?>"
                 value="<?= htmlspecialchars(($saisie['date_retour'] ?? '')) ?>" />
             <?php if (isset($erreurs['date_retour'])): ?>
                 <p class="erreur"><?= htmlspecialchars($erreurs['date_retour']) ?></p>

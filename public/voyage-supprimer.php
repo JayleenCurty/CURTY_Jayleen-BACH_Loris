@@ -44,8 +44,7 @@ require __DIR__ . '/../src/partials/header.php';
 
         <form method="post" action="voyage-supprimer.php">
             <!-- Champs cachés : quel voyage -->
-            <input type="hidden" name="voyage" value="<?= (int) $voyage->getId() ?>" />
-
+            <input type="hidden" name="voyage" value="<?= htmlspecialchars((string) (int) $voyage->getId()) ?>" />
             <div class="actions-confirmation">
                 <button type="submit" class="btn btn-danger"><?= htmlspecialchars(Lang::t('supprimer.confirmer')) ?></button>
                 <a href="mes-voyages.php" class="btn btn-secondaire"><?= htmlspecialchars(Lang::t('supprimer.annuler')) ?></a>

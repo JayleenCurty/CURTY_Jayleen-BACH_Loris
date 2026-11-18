@@ -34,8 +34,8 @@ $langue              = Lang::code();
             <?php endif; ?>
 
             <span class="langues">
-                <a href="?lang=fr" class="<?= $langue === 'fr' ? 'langue-active' : '' ?>">FR</a>
-                <a href="?lang=en" class="<?= $langue === 'en' ? 'langue-active' : '' ?>">EN</a>
+                <a href="?lang=fr" class="<?= htmlspecialchars($langue === 'fr' ? 'langue-active' : '') ?>">FR</a>
+                <a href="?lang=en" class="<?= htmlspecialchars($langue === 'en' ? 'langue-active' : '') ?>">EN</a>
             </span>
         </nav>
     </header>
